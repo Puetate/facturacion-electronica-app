@@ -49,16 +49,18 @@ const useStyles = createStyles((theme) => ({
 		display: "flex",
 		flexDirection: "column",
 		gap: ".5rem",
-		marginLeft: ".8rem",
 		alignContent: "center",
 		alignItems: "center"
 
 	},
 	formContain: {
-		width: "100%",
 		display: "flex",
 		flexDirection: "row",
-		gap: ".5rem",
+		width: "100%",
+		gap: ".3rem",
+		[theme.fn.smallerThan("sm")]: {
+			flexDirection: "column",
+		}
 	},
 
 	columnsForm: {
@@ -72,7 +74,7 @@ const useStyles = createStyles((theme) => ({
 		display: "flex",
 		alignContent: "center",
 		alignItems: "center",
-		margin:".7rem"
+		margin: ".7rem"
 	},
 
 
@@ -105,7 +107,7 @@ const validationSchema = Yup.object<Credentials>().shape({
 });
 
 export default function FormRegister() {
-	const { setAdmin, setToken } = useSessionStore();
+	const { setUser: setAdmin, setToken } = useSessionStore();
 	const { classes } = useStyles();
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();

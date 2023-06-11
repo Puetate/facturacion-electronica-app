@@ -7,8 +7,7 @@ function Register() {
 	},[]);
 	return (
 		
-		<Background>
-			
+		<Background>			
 			<FormRegister />
 		</Background>
 	);

@@ -1,38 +1,52 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Admin, AdminState, AdminType } from "../models";
+import { User, Company, CompanyType, EnvironmentType, UserRoles } from "../models";
 
 interface SessionState {
-	admin: Admin;
-	setAdmin: (admin: Admin) => void;
+	user: User;
+	setUser: (user: User) => void;
 	token: string;
 	setToken: (token: string) => void;
 	logout: () => void;
 }
 
-const initialAdmin: Admin = {
-	_id: "",
-	email: "",
+const initialCompany: Company = {
+	id_company: "",
+	city: "",
+	ruc: "",
+	type: CompanyType.EMPTY,
 	name: "",
-	surname: "",
-	type: AdminType.ADMIN,
-	state: AdminState.ACTIVE
+	email: "",
+	phone: "",
+	logo: "",
+	environment: EnvironmentType.TEST,
+	accounting: false
+}
+const initialUser: User = {
+	id_user: "",
+	company: initialCompany,
+	email: "alex@correo.com",
+	fullName: "Alex Tigselema",
+	identificación: "",
+	phone: "",
+	rol: UserRoles.SUPER,
+	state: false
 };
 
 export const useSessionStore = create(
 	persist<SessionState>(
 		(set) => ({
-			admin: initialAdmin,
-			setAdmin: (admin: Admin) => set(() => ({ admin: admin })),
+			user: initialUser,
+			setUser: (user: User) => set(() => ({ user: user })),
 			token: "",
 			setToken: (token: string) => set(() => ({ token: token })),
 			logout: () => {
-				set(() => ({ token: "", admin: initialAdmin }));
+				set(() => ({ token: "", user: initialUser }));
 				useSessionStore.persist.clearStorage();
 			},
 		}),
 		{
-			name: "pmv-auth",
+			name: "capyBills-auth",
 		},
 	),
 );

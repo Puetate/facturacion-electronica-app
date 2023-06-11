@@ -24,34 +24,34 @@ export interface AdminRoutes {
 	users: string;
 }
 
-export interface SuperRoutes{
+export interface SuperRoutes {
 	companies: string;
 }
 
-export const publicRoutes: PublicRoutes = {
+export const PublicRoutes: PublicRoutes = {
 	default: "/",
 	login: "/login",
 	register: "/register",
 };
 
-export const userRoutes: UserRoutes = {
+export const UserRoutes: UserRoutes = {
 	sales: "/sales",
-	creditNote: "/creditNote",
-	products: "/products",
-	categories: "/categories",
-	clients: "/clients",
+	creditNote: "/sales/creditNote",
+	products: "/sales/products",
+	categories: "/sales/categories",
+	clients: "/sales/clients",
 };
 
-export const adminRoutes: AdminRoutes = {
-	products: "/products",
-	categories: "/categories",
-	tax: "/tax",
-	clients: "/clients",
-	providers: "/providers",
-	purchases: "/purchases",
-	promotions: "/promotions",
+export const AdminRoutes: AdminRoutes = {
 	reports: "/reports",
-	users: "/users",
+	products: "/reports/products",
+	categories: "/reports/categories",
+	tax: "/reports/tax",
+	clients: "/reports/clients",
+	providers: "/reports/providers",
+	purchases: "/reports/purchases",
+	promotions: "/reports/promotions",
+	users: "/reports/users",
 };
 
 export const superRoutes: SuperRoutes = {

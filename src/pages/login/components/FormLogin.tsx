@@ -12,7 +12,7 @@ import { useForm, yupResolver } from "@mantine/form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { superRoutes } from "../../../models";
+import { superRoutes, UserRoutes } from "../../../models";
 import { useSessionStore } from "../../../store";
 import { loginService } from "../services";
 import loginImg from "./../../../assets/image_1.png";
@@ -77,7 +77,7 @@ const validationSchema = Yup.object<Credentials>().shape({
 });
 
 export default function FormLogin() {
-	const { setAdmin, setToken } = useSessionStore();
+	const { setUser, setToken } = useSessionStore();
 	const { classes } = useStyles();
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
@@ -94,13 +94,18 @@ export default function FormLogin() {
 
 	const handleSubmit = async (credentials: Credentials) => {
 		setLoading(true);
-		const res = await loginService(credentials);
+		/* const res = await loginService(credentials);
 		if (res.error || res == null) return setLoading(false);
 		setAdmin(res.admin);
-		setToken(res.token);
-		navigate(superRoutes.companies);
+		setToken(res.token); */
+		await timeout(1500);
+		navigate(UserRoutes.sales);
 		setLoading(false);
 	};
+
+	function timeout(delay: number) {
+		return new Promise(res => setTimeout(res, delay));
+	}
 
 	const onClickRecoveryPassword = () => {
 		open();
@@ -108,7 +113,7 @@ export default function FormLogin() {
 
 	return (
 		<>
-		
+
 			<Box className={classes.formContainer}>
 
 				<Image src={loginImg} className={classes.image} />

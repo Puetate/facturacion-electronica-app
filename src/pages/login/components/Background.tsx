@@ -1,18 +1,18 @@
 import { Box, Button, Container, createStyles } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { publicRoutes } from "../../../models";
+import { PublicRoutes } from "../../../models";
 
 const useStyles = createStyles((theme) => ({
+	background: {
+		height: "100%",
+		maxWidth: "100%",
+		backgroundColor: theme.colors.blue[6]
+	},
 	backgroundContainer: {
 		height: "90%",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
-	},
-	background: {
-		height: "100%",
-		maxWidth: "100%",
-		backgroundColor: theme.colors.blue[6]
 	},
 	containerButton: {
 		display: "flex",
@@ -34,7 +34,7 @@ export default function Background({ children }: { children: JSX.Element | JSX.E
 
 
 	function handleClickRegister() {
-		navigate(publicRoutes.register)
+		navigate(PublicRoutes.register)
 	}
 	return (
 		<Container className={classes.background} >

@@ -1,6 +1,6 @@
 import { Box, Button, Container, createStyles } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { publicRoutes } from "../../../models";
+import { PublicRoutes } from "../../../models";
 
 const useStyles = createStyles((theme) => ({
 	backgroundContainer: {
@@ -34,7 +34,7 @@ export default function Background({ children }: { children: JSX.Element | JSX.E
 
 
 	function handleClickLogin() {
-		navigate(publicRoutes.login)
+		navigate(PublicRoutes.login)
 	}
 	return (
 		<Container className={classes.background} >
