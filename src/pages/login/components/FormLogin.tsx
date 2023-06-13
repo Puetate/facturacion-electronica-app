@@ -111,15 +111,16 @@ export default function FormLogin() {
 		phone: "",
 		rol: UserRoles.USER,
 		state: true,
-	
+
 	};
 
 	const handleSubmit = async (credentials: Credentials) => {
 		setLoading(true);
+		console.log(credentials);
 		/* const res = await loginService(credentials);
 		if (res.error || res == null) return setLoading(false);*/
 		setUser(userTest);
-		setToken("MyToken"); 
+		setToken("MyToken");
 		await timeout(500);
 		navigate(UserRoutes.sales);
 		setLoading(false);
