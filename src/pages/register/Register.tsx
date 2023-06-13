@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Background, FormRegister } from "./components";
+import { Background, FormRegister } from ".";
 
 function Register() {
     useEffect(() => {

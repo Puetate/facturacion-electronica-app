@@ -1,6 +1,6 @@
 import { AppShell, Container, createStyles } from "@mantine/core";
 import { Outlet } from "react-router-dom";
-import { Header, Navbar } from "./components";
+import {  Navbar } from "./components";
 import { LayoutProvider } from "./context";
 
 const useStyles = createStyles((theme) => ({

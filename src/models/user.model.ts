@@ -20,5 +20,5 @@ export interface User {
 	password?: string,
 	state: boolean,
 	rol: UserRoles,
-	phone:string
+	phone:string,
 }

@@ -20,7 +20,7 @@ import {
 	IconUsersGroup,
 	IconUserShield,
 } from "@tabler/icons-react";
-import { AdminRoutes, superRoutes, TypeWithKey, UserRoles, UserRoutes } from "../../models";
+import { AdminRoutes, superRoutes, UserRoutes } from "../../models";
 import { useSessionStore } from "../../store";
 import { useLayout } from "../hooks";
 import CapyBills from "../assets/capyBills.svg";
@@ -97,7 +97,6 @@ const linksAdmin: LinksGroupProps[] = [
 		],
 	},
 	{ label: "Impuesto", icon: IconReceiptTax, links: [{ label: "", link: AdminRoutes.tax }] },
-
 	{ label: "Clientes", icon: IconUsersGroup, links: [{ label: "", link: AdminRoutes.clients }] },
 	{ label: "Proveedores", icon: IconPackageImport, links: [{ label: "", link: AdminRoutes.providers }] }, //IconTruckReturn
 	{ label: "Compras", icon: IconShoppingBag, links: [{ label: "", link: AdminRoutes.purchases }] },
@@ -108,13 +107,6 @@ const linksAdmin: LinksGroupProps[] = [
 const linksSuper: LinksGroupProps[] = [
 	{ label: "Compañías", icon: IconBuildingSkyscraper, links: [{ label: "", link: superRoutes.companies }] },
 ];
-
-
-const allowedLinks: TypeWithKey<string[]> = {
-	user: Object.values(UserRoutes),
-	admin: Object.values(AdminRoutes),
-	super: Object.values(superRoutes),
-};
 
 const navBarsLinks = {
 	user: linksUser,
@@ -128,11 +120,11 @@ export default function Navbar() {
 	const [links, setLinks] = useState<LinksGroupProps[]>([]);
 	const { opened } = useLayout();
 
-	const optionsNavbar = links.map((item) => <LinksGroup {...item} key={item.label} />);
 
 	const getLinks = () => {
 		setLinks(navBarsLinks[user.rol])
 	}
+
 	useEffect(() => {
 		getLinks();
 	}, [])
@@ -155,12 +147,7 @@ export default function Navbar() {
 
 				</Group>
 				<Box className={classes.linksContainer}>
-					{optionsNavbar.map(
-						(link) =>
-							/* allowedLinks[user.rol].includes(link.props.links) && */(
-							link
-						),
-					)}
+					{links.map((item) => <LinksGroup {...item} key={item.label} />)}
 				</Box>
 			</MantineNavbar.Section>
 			<Footer />

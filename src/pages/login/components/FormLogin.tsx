@@ -12,9 +12,8 @@ import { useForm, yupResolver } from "@mantine/form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { superRoutes, UserRoutes } from "../../../models";
+import { CompanyType, EnvironmentType, User, UserRoles, UserRoutes } from "../../../models";
 import { useSessionStore } from "../../../store";
-import { loginService } from "../services";
 import loginImg from "./../../../assets/image_1.png";
 import { useDisclosure } from "@mantine/hooks";
 import FormRecoveryPassword from "./FormRecoveryPassword";
@@ -92,13 +91,36 @@ export default function FormLogin() {
 		close();
 	};
 
+	const userTest: User = {
+		id_user: "",
+		company: {
+			id_company: "",
+			city: "",
+			ruc: "",
+			type: CompanyType.EMPTY,
+			name: "",
+			email: "",
+			phone: "",
+			logo: "",
+			environment: EnvironmentType.TEST,
+			accounting: false
+		},
+		email: "alex@correo.com",
+		fullName: "Alex Tigselema",
+		identificación: "",
+		phone: "",
+		rol: UserRoles.USER,
+		state: true,
+	
+	};
+
 	const handleSubmit = async (credentials: Credentials) => {
 		setLoading(true);
 		/* const res = await loginService(credentials);
-		if (res.error || res == null) return setLoading(false);
-		setAdmin(res.admin);
-		setToken(res.token); */
-		await timeout(1500);
+		if (res.error || res == null) return setLoading(false);*/
+		setUser(userTest);
+		setToken("MyToken"); 
+		await timeout(500);
 		navigate(UserRoutes.sales);
 		setLoading(false);
 	};

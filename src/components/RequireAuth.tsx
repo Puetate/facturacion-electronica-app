@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { AdminState, AdminRoutes, superRoutes, UserRoutes } from "../models";
+import { AdminRoutes, superRoutes, UserRoutes } from "../models";
 import { useSessionStore } from "../store";
 
 const allowedRoutes = {
@@ -16,20 +16,19 @@ const defaultRoutes = {
 }
 
 export default function RequireAuth() {
-	const { token, user: admin } = useSessionStore();
+	const { token, user } = useSessionStore();
 	const location = useLocation();
 	const navigate = useNavigate();
 
-	/* useEffect(() => {
+	useEffect(() => {	
 		if (!token) return navigate("/");
 	}, [token]);
 
-	return allowedRoutes[admin.type].includes(location.pathname) &&
-		admin.state === AdminState.ACTIVE ? (
+	return allowedRoutes[user.rol].includes(location.pathname) &&
+		user.state
+		? (
 		<Outlet />
 	) : (
-		<Navigate replace to={defaultRoutes[admin.type]} />
+		<Navigate replace to={defaultRoutes[user.rol]} />
 	);
- */
-	return (<Outlet />);
 }

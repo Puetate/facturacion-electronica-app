@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { User, Company, CompanyType, EnvironmentType, UserRoles } from "../models";
+import { User, CompanyType, EnvironmentType, UserRoles } from "../models";
 
 interface SessionState {
 	user: User;
@@ -10,27 +10,27 @@ interface SessionState {
 	logout: () => void;
 }
 
-const initialCompany: Company = {
-	id_company: "",
-	city: "",
-	ruc: "",
-	type: CompanyType.EMPTY,
-	name: "",
-	email: "",
-	phone: "",
-	logo: "",
-	environment: EnvironmentType.TEST,
-	accounting: false
-}
 const initialUser: User = {
 	id_user: "",
-	company: initialCompany,
-	email: "alex@correo.com",
-	fullName: "Alex Tigselema",
+	company: {
+		id_company: "",
+		city: "",
+		ruc: "",
+		type: CompanyType.EMPTY,
+		name: "",
+		email: "",
+		phone: "",
+		logo: "",
+		environment: EnvironmentType.TEST,
+		accounting: false
+	},
+	email: "",
+	fullName: "",
 	identificación: "",
 	phone: "",
-	rol: UserRoles.SUPER,
-	state: false
+	rol: UserRoles.USER,
+	state: false,
+
 };
 
 export const useSessionStore = create(
