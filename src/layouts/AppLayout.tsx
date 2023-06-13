@@ -1,6 +1,6 @@
 import { AppShell, Container, createStyles } from "@mantine/core";
 import { Outlet } from "react-router-dom";
-import {  Navbar } from "./components";
+import { Navbar } from "./components";
 import { LayoutProvider } from "./context";
 
 const useStyles = createStyles((theme) => ({
@@ -21,7 +21,7 @@ export default function AppLayout() {
 				navbarOffsetBreakpoint="sm"
 				asideOffsetBreakpoint="sm"
 				navbar={<Navbar />}
-				
+
 			>
 				<Container className={classes.container}>
 					<Outlet />

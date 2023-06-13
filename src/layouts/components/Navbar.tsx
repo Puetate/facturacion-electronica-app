@@ -120,7 +120,6 @@ export default function Navbar() {
 	const [links, setLinks] = useState<LinksGroupProps[]>([]);
 	const { opened } = useLayout();
 
-
 	const getLinks = () => {
 		setLinks(navBarsLinks[user.rol])
 	}
