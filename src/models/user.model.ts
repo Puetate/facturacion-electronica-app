@@ -14,7 +14,7 @@ export enum UserState {
 export interface User {
 	id_user?: string,
 	company: Company,
-	identificación:string,
+	identification:string,
 	email: string,
 	fullName: string,
 	password?: string,

@@ -16,7 +16,7 @@ import { CompanyType, EnvironmentType, User, UserRoles, UserRoutes } from "../..
 import { useSessionStore } from "../../../store";
 import loginImg from "./../../../assets/image_1.png";
 import { useDisclosure } from "@mantine/hooks";
-import FormRecoveryPassword from "./FormRecoveryPassword";
+import { FormRecoveryPassword } from ".";
 
 const useStyles = createStyles((theme) => ({
 	formContainer: {
@@ -107,17 +107,21 @@ export default function FormLogin() {
 		},
 		email: "alex@correo.com",
 		fullName: "Alex Tigselema",
-		identificación: "",
+		identification: "",
 		phone: "",
-		rol: UserRoles.USER,
+		rol: UserRoles.ADMIN,
 		state: true,
 	
 	};
 
 	const handleSubmit = async (credentials: Credentials) => {
 		setLoading(true);
+		console.log(credentials);
+		
 		/* const res = await loginService(credentials);
 		if (res.error || res == null) return setLoading(false);*/
+		console.log(userTest.rol);
+		
 		setUser(userTest);
 		setToken("MyToken"); 
 		await timeout(500);
@@ -144,7 +148,6 @@ export default function FormLogin() {
 				</Text>
 				<form onSubmit={form.onSubmit(handleSubmit)} className={classes.form}>
 					<TextInput
-
 						label="Correo Electrónico"
 						placeholder="correo@correo.com"
 						{...form.getInputProps("email")}
