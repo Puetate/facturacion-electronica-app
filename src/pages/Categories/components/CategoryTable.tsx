@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DataTableColumn } from "mantine-datatable"
 import { ActionIcon, Button, Flex, Group, Tooltip, Text } from "@mantine/core";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconCirclePlus, IconEdit, IconTrash } from "@tabler/icons-react";
 import getCategoriesService from "../services/getCategories.service";
 import { ConfirmDialog, DataTable } from "../../../components";
 import { useDisclosure } from "@mantine/hooks";
@@ -10,6 +10,8 @@ import deleteCategoryService from "../services/deleteCategory.service";
 import MantineDrawer from "../../../components/Drawer";
 import { FormCategory } from ".";
 import { getCategoryService } from "../services";
+import InputsFilters from "../../../components/InputsFilters";
+import { Title } from "../../../layouts";
 
 
 //const TITLE = "Categorías";
@@ -26,7 +28,7 @@ export interface CategoryData {
 
 function CategoryTable() {
     const [listCategories, setListCategories] = useState<CategoryData[]>([]);
-    const recordsRef = useRef<CategoryData[]>([]);
+    const listCategoriesRef = useRef<CategoryData[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<CategoryData | null>(null)
     const [title, setTitle] = useState("");
     const [opened, { open, close }] = useDisclosure()
@@ -51,7 +53,7 @@ function CategoryTable() {
     const getCategory = async (id: string) => {
         const res = await getCategoryService(id);
         if (res.error || res.data === null) return null;
-        
+
         return getCategoryProperties(res.data.data);
     };
 
@@ -83,8 +85,23 @@ function CategoryTable() {
             }
         ));
         setListCategories(categories);
-        recordsRef.current = categories;
+        listCategoriesRef.current = categories;
     };
+
+    const generalFilter = (value: string) => {
+        if (value == "") {
+            return setListCategories(listCategoriesRef.current);
+        }
+        const filteredList = listCategoriesRef.current.filter(
+            ({ category, promotion, status, tax }: CategoryData) => {
+                const filter = `${category} ${promotion} ${status} ${tax}`;
+                return filter.toLowerCase().includes(value.trim().toLowerCase());
+
+            },
+        );
+        return setListCategories(filteredList);
+
+    }
 
     useEffect(() => {
         getCategories();
@@ -131,19 +148,19 @@ function CategoryTable() {
     ], [])
 
     return (
-        <Flex direction="column" h="100%" gap="xs">
-            <Flex>
-                <Flex gap="xs">
 
-                    <Button onClick={onClickAddButton}>
-                        Agregar
-                    </Button>
-                </Flex>
+        <Flex direction="column" h="100%" gap="xs">
+            <Title />
+            <Flex justify="space-between" align="center">
+                <InputsFilters onChangeFilters={generalFilter} />
+                <Button size="md" leftIcon={<IconCirclePlus />} onClick={onClickAddButton}>
+                    Agregar
+                </Button>
             </Flex>
             <DataTable columns={categoriesColumns} records={listCategories} />
             <ConfirmDialog opened={openedDialog} onClose={closeDialog} message={CONFIRM_MESSAGE} onConfirm={handleDeleteRoutineAlert} />
             <MantineDrawer opened={opened} title={title} close={close} >
-                <FormCategory onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedCategory={selectedCategory}/>
+                <FormCategory onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedCategory={selectedCategory} />
             </MantineDrawer>
         </Flex>
     )

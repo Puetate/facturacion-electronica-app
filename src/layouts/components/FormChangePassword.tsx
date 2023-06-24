@@ -6,7 +6,7 @@ import {
 	createStyles,
 } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import * as Yup from "yup";
 import { SnackbarManager } from "../../utils";
 import changePasswordAdminService from "../services/changePasswordService";

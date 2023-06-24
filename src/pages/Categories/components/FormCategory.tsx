@@ -20,7 +20,7 @@ const initialValues: CategoryData = {
     tax: "",
     promotion: "",
     category: "",
-    status: "false"
+    status: ""
 }
 
 const validationSchema = Yup.object<CategoryData>().shape({
