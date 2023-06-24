@@ -110,7 +110,7 @@ const linksSuper: LinksGroupProps[] = [
 
 const navBarsLinks = {
 	user: linksUser,
-	admin: linksAdmin,
+	ADMINISTRADOR: linksAdmin,
 	super: linksSuper
 }
 

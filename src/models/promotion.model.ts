@@ -1,6 +1,6 @@
 export interface Promotion {
-	id_promotion?: string,
+    id?: string,
     description: string,
-    value:number,
-    state:boolean
+    value: number,
+    status: boolean
 }

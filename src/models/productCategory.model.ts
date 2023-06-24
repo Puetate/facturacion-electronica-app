@@ -2,19 +2,23 @@ import { Promotion } from "./promotion.model";
 import { Tax } from "./tax.model";
 
 export enum Category {
-	MEATS = "Carnes",
+    MEATS = "Carnes",
     FRUITS = "Frutas",
     VEGETABLES = "Verduras",
     BEVERAGES = "Bebidas",
     GRAINS = "Granos",
     CEREALS = "Cereales",
-    CONDIMENTS = "Condimentos"
+    CONDIMENTS = "Condimentos",
+    OTRO = "Otro",
+    EMPTY = ""
 }
 
+export const enumCategory = Object.values(Category);
+
 export interface ProductCategory {
-	id_productCategory?: string,
+    id?: string,
     tax: Tax,
     promotion: Promotion
-    category: Category 
-    state: boolean
+    category:string
+    status: boolean
 }
