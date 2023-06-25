@@ -1,9 +1,9 @@
 import API from "../../../lib/API";
 import { EndPoints } from "../../../utils";
-import { CategoryRequest } from "./saveCategory.service";
+import { CategoryData } from "../components/CategoryTable";
 
-export default async function editCategoryService(id: string, category: CategoryRequest) {
+export default async function editCategoryService(id: string, category: CategoryData) {
     const url = `${EndPoints.CATEGORY}/${id}`;
-    const res = await API.patch<CategoryRequest>({ url, data: category })
+    const res = await API.patch<CategoryData>({ url, data: category })
     return res
 } 

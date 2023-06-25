@@ -1,5 +1,6 @@
 import API from "../../../lib/API";
 import {  ProductCategory } from "../../../models";
+import { EndPoints } from "../../../utils";
 import { ResponseRequest } from "./getCategories.service";
 
 export interface OneCategoryResponse extends ResponseRequest {
@@ -7,9 +8,8 @@ export interface OneCategoryResponse extends ResponseRequest {
 }
 
 
-const URL = "/protected/category"
 export default async function getCategoryService(id: string) {
-    const url = `${URL}/${id}`;
+    const url = `${EndPoints.CATEGORY}/${id}`;
     const res = await API.get<OneCategoryResponse>({ url });
     return res;
 }

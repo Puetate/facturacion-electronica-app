@@ -61,6 +61,7 @@ function CategoryTable() {
         const res = await deleteCategoryService(id);
         if (res.error || res.data === null) return
         SnackbarManager.success(SUCCESS_DELETE)
+        onSubmitSuccess();
         closeDialog();
     }
     const onClickAddButton = () => {
@@ -114,7 +115,7 @@ function CategoryTable() {
         { accessor: "category", title: "Categoría", textAlignment: 'center' },
         { accessor: "tax", title: "Impuesto", textAlignment: 'center' },
         { accessor: "promotion", title: "Promoción", textAlignment: 'center' },
-        { accessor: "state", title: "Estado", textAlignment: 'center', render: (category) => <Text>{(category.status) ? "Activo" : "Inactivo"}</Text> },
+        { accessor: "status", title: "Estado", textAlignment: 'center', render: (category) => <Text>{(category.status) ? "Activo" : "Inactivo"}</Text> },
         {
             accessor: "actions",
             title: "Acciones",
@@ -124,7 +125,7 @@ function CategoryTable() {
                         <ActionIcon
                             color="red"
                             variant="light"
-                            
+
                             onClick={() => onClickDeleteButton(category)}
                         >
                             <IconTrash />

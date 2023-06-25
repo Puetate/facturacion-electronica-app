@@ -2,7 +2,7 @@ import { Button, Flex, Select, Text, TextInput, createStyles } from "@mantine/co
 import { useEffect, useRef, useState } from "react";
 import { State, } from "../../../models";
 import editCategoryService from "../services/editCategory.service";
-import { SnackbarManager, getCategoryRequest } from "../../../utils";
+import { SnackbarManager} from "../../../utils";
 import * as Yup from "yup";
 import { useForm, yupResolver } from "@mantine/form";
 import { CategoryData } from "./CategoryTable";
@@ -68,13 +68,12 @@ function FormCategory({ onSubmitSuccess, onCancel, selectedCategory }:
     const handleSubmit = async (formCategory: CategoryData) => {
         setLoading(true)
         formCategory.status = formCategory.status as boolean
-        const categoryRequest = getCategoryRequest(formCategory);
         if (idRef.current !== "") {
-            const res = await editCategoryService(idRef.current, categoryRequest)
+            const res = await editCategoryService(idRef.current, formCategory)
             if (res.error || res.data == null) return setLoading(false)
             SnackbarManager.success("Categoría editada exitosamente")
         } else {
-            const res = await saveCategoryService(categoryRequest)
+            const res = await saveCategoryService(formCategory)
             if (res.error || res.data == null) return setLoading(false)
             SnackbarManager.success("Categoría creada exitosamente")
         }
