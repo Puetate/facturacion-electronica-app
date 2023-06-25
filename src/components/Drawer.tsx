@@ -1,15 +1,14 @@
 import { Drawer, Container } from '@mantine/core';
 
-export default function MantineDrawer({ children, opened, title, close }: { children: JSX.Element | JSX.Element[] , opened:boolean, title:string, close:()=>void, }) {
-
+export default function MantineDrawer({ children, opened, close }: { children: JSX.Element | JSX.Element[] , opened:boolean,  close:()=>void, }) {
   return (
     <>
       <Drawer
+      withCloseButton={false}
         opened={opened}
         onClose={close}
-        title={title}
         position='right'
-        size="50%" 
+        size="35%" 
         overlayProps={{ opacity: 0.5, blur: 4 }}
       >
         <Container> {children} </Container>

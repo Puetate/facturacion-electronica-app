@@ -30,7 +30,6 @@ function CategoryTable() {
     const [listCategories, setListCategories] = useState<CategoryData[]>([]);
     const listCategoriesRef = useRef<CategoryData[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<CategoryData | null>(null)
-    const [title, setTitle] = useState("");
     const [opened, { open, close }] = useDisclosure()
     const [openedDialog, { open: openDialog, close: closeDialog }] = useDisclosure()
 
@@ -41,7 +40,6 @@ function CategoryTable() {
 
         if (categoryToEdit == null) return;
         setSelectedCategory({ ...categoryToEdit });
-        setTitle("Editar Categoría")
         open()
     }
 
@@ -63,10 +61,10 @@ function CategoryTable() {
         const res = await deleteCategoryService(id);
         if (res.error || res.data === null) return
         SnackbarManager.success(SUCCESS_DELETE)
+        closeDialog();
     }
     const onClickAddButton = () => {
         setSelectedCategory(null);
-        setTitle("Nueva Categoría")
         open()
     }
 
@@ -116,7 +114,7 @@ function CategoryTable() {
         { accessor: "category", title: "Categoría", textAlignment: 'center' },
         { accessor: "tax", title: "Impuesto", textAlignment: 'center' },
         { accessor: "promotion", title: "Promoción", textAlignment: 'center' },
-        { accessor: "state", title: "Estado", textAlignment: 'center', render: (category) => <Text key={category.id}>{(category.status) ? "Activo" : "Inactivo"}</Text> },
+        { accessor: "state", title: "Estado", textAlignment: 'center', render: (category) => <Text>{(category.status) ? "Activo" : "Inactivo"}</Text> },
         {
             accessor: "actions",
             title: "Acciones",
@@ -125,15 +123,16 @@ function CategoryTable() {
                     <>
                         <ActionIcon
                             color="red"
-                            variant="filled"
+                            variant="light"
+                            
                             onClick={() => onClickDeleteButton(category)}
                         >
                             <IconTrash />
                         </ActionIcon>
                         <Tooltip label="Editar">
                             <ActionIcon
-                                color="orange"
-                                variant="filled"
+                                color="violet"
+                                variant="light"
                                 onClick={() => onClickEditButton(category)}
                             >
                                 <IconEdit />
@@ -149,7 +148,7 @@ function CategoryTable() {
 
     return (
 
-        <Flex direction="column" h="100%" gap="xs">
+        <Flex direction="column" h="100%" gap=".15rem">
             <Title />
             <Flex justify="space-between" align="center">
                 <InputsFilters onChangeFilters={generalFilter} />
@@ -159,7 +158,7 @@ function CategoryTable() {
             </Flex>
             <DataTable columns={categoriesColumns} records={listCategories} />
             <ConfirmDialog opened={openedDialog} onClose={closeDialog} message={CONFIRM_MESSAGE} onConfirm={handleDeleteRoutineAlert} />
-            <MantineDrawer opened={opened} title={title} close={close} >
+            <MantineDrawer opened={opened} close={close} >
                 <FormCategory onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedCategory={selectedCategory} />
             </MantineDrawer>
         </Flex>

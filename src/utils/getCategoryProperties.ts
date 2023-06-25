@@ -13,3 +13,16 @@ export const getCategoryProperties = (productCategory: ProductCategory) => {
     }
     return category;
 }
+
+export const getCategoryRequest = (productCategory: CategoryData) => {
+
+    const category = {
+        id: productCategory.id || "",
+        category: productCategory.category,
+        promotionId: productCategory.promotion,
+        taxId: productCategory.tax,
+        status: productCategory.status
+
+    }
+    return category;
+}

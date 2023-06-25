@@ -1,9 +1,9 @@
 import API from "../../../lib/API";
 import { ProductCategory } from "../../../models";
+import { EndPoints } from "../../../utils";
 
-const URL = "/"
 export default async function deleteCategoryService(id: string) {
-    const url = `${URL}/${id}`;
+    const url = `${EndPoints.CATEGORY}/${id}`;
     const res = await API.del<ProductCategory>({ url });
     return res;
 }

@@ -1,10 +1,9 @@
 import API from "../../../lib/API";
-import { ProductCategory } from "../../../models";
-import { CategoryData } from "../components/CategoryTable";
+import { EndPoints } from "../../../utils";
+import { CategoryRequest } from "./saveCategory.service";
 
-const URL = "/"
-export default async function editCategoryService(id: string, category: CategoryData) {
-    const url = `${URL}/${id}`;
-    const res = await API.patch<ProductCategory>({ url, data: category })
+export default async function editCategoryService(id: string, category: CategoryRequest) {
+    const url = `${EndPoints.CATEGORY}/${id}`;
+    const res = await API.patch<CategoryRequest>({ url, data: category })
     return res
 } 

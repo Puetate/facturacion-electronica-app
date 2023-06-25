@@ -1,18 +1,32 @@
-import { Button, Flex, Select, TextInput } from "@mantine/core"
+import { Button, Flex, Select, Text, TextInput, createStyles } from "@mantine/core"
 import { useEffect, useRef, useState } from "react";
 import { State, } from "../../../models";
 import editCategoryService from "../services/editCategory.service";
-import { SnackbarManager } from "../../../utils";
+import { SnackbarManager, getCategoryRequest } from "../../../utils";
 import * as Yup from "yup";
 import { useForm, yupResolver } from "@mantine/form";
 import { CategoryData } from "./CategoryTable";
 import saveCategoryService from "../services/saveCategory.service";
 import getCatalogTaxService, { Catalog } from "../../Tax/services/getCatalogTax.service";
+import { getCatalogPromotionsService } from "../../Promotions/services";
+
+
+const useStyles = createStyles((theme) => ({
+    title: {
+        color: theme.colors.blue[5],
+        fontSize: "1.5rem",
+        [theme.fn.smallerThan("sm")]: {
+            display: "none",
+        },
+    },
+
+}));
+
 
 
 export const itemState = [
-    { value: 'true', label: State.ACTIVE },
-    { value: 'false', label: State.INACTIVE },
+    { value: "true", label: State.ACTIVE },
+    { value: "false", label: State.INACTIVE },
 ];
 
 const initialValues: CategoryData = {
@@ -35,9 +49,11 @@ function FormCategory({ onSubmitSuccess, onCancel, selectedCategory }:
         onCancel: () => void,
         selectedCategory: CategoryData | null
     }) {
+    const { classes } = useStyles();
     const [loading, setLoading] = useState(false);
     const idRef = useRef<string>(selectedCategory?.id || "");
-    const [catalogTax, setCatalogTax] = useState<Catalog[] >([])
+    const [catalogTax, setCatalogTax] = useState<Catalog[]>([])
+    const [catalogPromotions, setCatalogPromotions] = useState<Catalog[]>([])
 
 
     const form = useForm({
@@ -51,14 +67,16 @@ function FormCategory({ onSubmitSuccess, onCancel, selectedCategory }:
 
     const handleSubmit = async (formCategory: CategoryData) => {
         setLoading(true)
+        formCategory.status = formCategory.status as boolean
+        const categoryRequest = getCategoryRequest(formCategory);
         if (idRef.current !== "") {
-            const res = await editCategoryService(idRef.current, formCategory)
+            const res = await editCategoryService(idRef.current, categoryRequest)
             if (res.error || res.data == null) return setLoading(false)
-            SnackbarManager.success("Rutina editada exitosamente")
+            SnackbarManager.success("Categoría editada exitosamente")
         } else {
-            const res = await saveCategoryService(formCategory)
+            const res = await saveCategoryService(categoryRequest)
             if (res.error || res.data == null) return setLoading(false)
-            SnackbarManager.success("Rutina creada exitosamente")
+            SnackbarManager.success("Categoría creada exitosamente")
         }
         setLoading(false)
         onSubmitSuccess()
@@ -69,17 +87,25 @@ function FormCategory({ onSubmitSuccess, onCancel, selectedCategory }:
         const catalog = await getCatalogTaxService();
         if (catalog === null) return;
         setCatalogTax(catalog);
-    } 
+    }
+
+    const getCatalogPromotions = async () => {
+        const catalog = await getCatalogPromotionsService();
+        if (catalog === null) return;
+        setCatalogPromotions(catalog);
+    }
 
     useEffect(() => {
         getCatalogTax();
+        getCatalogPromotions();
 
     }, [])
 
 
     return (
         <Flex direction="column" p="lg">
-            {/* <Text align="center" mb="lg">{idRef.current ? "Editar notificación de rutina" : "Crear notificación de rutina"}</Text> */}
+
+            <Text className={classes.title} align="center" mb="lg">{idRef.current ? "Editar Categoría" : "Crear Categoría"}</Text>
             <form onSubmit={form.onSubmit(handleSubmit)} >
                 <Flex direction="column" gap="lg">
                     <TextInput
@@ -92,7 +118,9 @@ function FormCategory({ onSubmitSuccess, onCancel, selectedCategory }:
                         clearable
                         label="Promoción"
                         placeholder="Seleccione"
-                        data={Object.values(catalogTax!)}
+                        data={catalogPromotions}
+                        {...form.getInputProps("promotion")}
+
                     />
                     <Select
                         clearable

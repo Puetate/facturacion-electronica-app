@@ -1,5 +1,6 @@
 import API from "../../../lib/API";
 import { ProductCategory } from "../../../models";
+import { EndPoints } from "../../../utils";
 
 export interface ResponseRequest {
     httpStatus: string,
@@ -9,8 +10,7 @@ export interface CategoryResponse extends ResponseRequest {
     data: ProductCategory[]
 }
 
-const URL = "/protected/category"
 export default async function getCategoriesService() {
-    const res = await API.get<CategoryResponse>({ url: URL });
+    const res = await API.get<CategoryResponse>({ url: EndPoints.CATEGORY });
     return res;
 }

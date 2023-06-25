@@ -7,7 +7,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 12;
 
 export default function DataTable<T>(props: DataTableProps<T>) {
 	const [page, setPage] = useState(1);
@@ -56,7 +56,7 @@ export default function DataTable<T>(props: DataTableProps<T>) {
 			borderColor={theme.colors.green[6]}
 			borderRadius="md"
 			page={page}
-			idAccessor="_id"
+			idAccessor="id"
 			noRecordsText="No hay datos disponibles"
 			onPageChange={(p) => setPage(p)}
 		/>
