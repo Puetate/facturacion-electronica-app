@@ -13,8 +13,9 @@ import { getPromotionProperties } from "../../../utils/getPromotionProperties";
 import deletePromotionService from "../services/deletePromotion.service";
 import getPromotionService from "../services/getPromotion.service";
 import getPromotionsService from "../services/getPromotions.service";
+import FormPromotion from "./FormPromotions";
 
-const CONFIRM_MESSAGE = "¿Seguro que desea eliminar la prmoción?"
+const CONFIRM_MESSAGE = "¿Seguro que desea eliminar la promoción?"
 const SUCCESS_DELETE = "Promoción eliminada exitosamente"
 
 export interface PromotionData {
@@ -156,7 +157,7 @@ function PromotionTable() {
             <DataTable columns={promotionsColumns} records={listPromotions} />
             <ConfirmDialog opened={openedDialog} onClose={closeDialog} message={CONFIRM_MESSAGE} onConfirm={handleDeleteRoutineAlert} />
             <MantineDrawer opened={opened} close={close} >
-               
+                <FormPromotion onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedPromotion={selectedPromotion} />
             </MantineDrawer>
         </Flex>
     )
