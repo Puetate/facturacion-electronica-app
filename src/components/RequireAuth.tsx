@@ -4,13 +4,13 @@ import { AdminRoutes, superRoutes, UserRoutes } from "../models";
 import { useSessionStore } from "../store";
 
 const allowedRoutes = {
-	admin: Object.values(AdminRoutes),
+	ADMINISTRADOR: Object.values(AdminRoutes),
 	super: Object.values(superRoutes),
 	user: Object.values(UserRoutes),
 };
 
 const defaultRoutes = {
-	admin: AdminRoutes.reports,
+	ADMINISTRADOR: AdminRoutes.reports,
 	super: superRoutes.companies,
 	user: UserRoutes.sales
 }
@@ -20,15 +20,15 @@ export default function RequireAuth() {
 	const location = useLocation();
 	const navigate = useNavigate();
 
-	useEffect(() => {	
+	useEffect(() => {
 		if (!token) return navigate("/");
 	}, [token]);
 
 	return allowedRoutes[user.rol].includes(location.pathname) &&
-		user.state
+		user.status
 		? (
-		<Outlet />
-	) : (
-		<Navigate replace to={defaultRoutes[user.rol]} />
-	);
+			<Outlet />
+		) : (
+			<Navigate replace to={defaultRoutes[user.rol]} />
+		);
 }

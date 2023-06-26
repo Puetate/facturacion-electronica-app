@@ -12,11 +12,12 @@ import { useForm, yupResolver } from "@mantine/form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { CompanyType, EnvironmentType, User, UserRoles, UserRoutes } from "../../../models";
+import { User, UserRoutes } from "../../../models";
 import { useSessionStore } from "../../../store";
 import loginImg from "./../../../assets/image_1.png";
 import { useDisclosure } from "@mantine/hooks";
-import FormRecoveryPassword from "./FormRecoveryPassword";
+import { FormRecoveryPassword } from ".";
+import loginService from "../services/loginService";
 
 const useStyles = createStyles((theme) => ({
 	formContainer: {
@@ -91,35 +92,25 @@ export default function FormLogin() {
 		close();
 	};
 
-	const userTest: User = {
-		id_user: "",
-		company: {
-			id_company: "",
-			city: "",
-			ruc: "",
-			type: CompanyType.EMPTY,
-			name: "",
-			email: "",
-			phone: "",
-			logo: "",
-			environment: EnvironmentType.TEST,
-			accounting: false
-		},
-		email: "alex@correo.com",
-		fullName: "Alex Tigselema",
-		identificación: "",
-		phone: "",
-		rol: UserRoles.USER,
-		state: true,
-	
-	};
+
 
 	const handleSubmit = async (credentials: Credentials) => {
 		setLoading(true);
-		/* const res = await loginService(credentials);
-		if (res.error || res == null) return setLoading(false);*/
-		setUser(userTest);
-		setToken("MyToken"); 
+		const res = await loginService(credentials);
+		if (res.error || res == null) return setLoading(false);
+		const auth = res.data!.data;
+		const user: User = {
+			id: auth.user.id,
+			company: auth.user.company,
+			identification: auth.user.identification,
+			email: auth.user.email,
+			fullName: auth.user.fullName,
+			status: auth.user.status,
+			rol: auth.user.authorities[0].authority,
+			telephone: auth.user.telephone,
+		}
+		setUser(user);
+		setToken(auth.token);
 		await timeout(500);
 		navigate(UserRoutes.sales);
 		setLoading(false);
@@ -144,7 +135,6 @@ export default function FormLogin() {
 				</Text>
 				<form onSubmit={form.onSubmit(handleSubmit)} className={classes.form}>
 					<TextInput
-
 						label="Correo Electrónico"
 						placeholder="correo@correo.com"
 						{...form.getInputProps("email")}

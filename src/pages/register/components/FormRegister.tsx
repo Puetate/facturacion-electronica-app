@@ -17,7 +17,7 @@ import * as Yup from "yup";
 import { superRoutes } from "../../../models";
 import { useSessionStore } from "../../../store";
 import loginImg from "./../../../assets/image_1.png";
-import { loginService } from "../../login";
+import { loginService } from "../../Login";
 
 const useStyles = createStyles((theme) => ({
 	formContainer: {

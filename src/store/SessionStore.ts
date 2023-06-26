@@ -11,7 +11,7 @@ interface SessionState {
 }
 
 const initialUser: User = {
-	id_user: "",
+	id: "",
 	company: {
 		id_company: "",
 		city: "",
@@ -26,10 +26,10 @@ const initialUser: User = {
 	},
 	email: "",
 	fullName: "",
-	identificación: "",
-	phone: "",
+	identification: "",
+	telephone: "",
 	rol: UserRoles.USER,
-	state: false,
+	status: false,
 
 };
 

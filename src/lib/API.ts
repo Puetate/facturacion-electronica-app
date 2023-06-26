@@ -15,7 +15,17 @@ export interface RequestParams {
 	headers?: {};
 }
 
-function get<T>(params: RequestParams) {
+export interface ResponseSuccess<T> {
+	data: T,
+	error: null
+}
+
+export interface ResponseError {
+	data: null,
+	error: any
+}
+
+function get<T>(params: RequestParams): Promise<ResponseSuccess<T> | ResponseError> {
 	return axios<T>({
 		url: params.url,
 		method: "GET",
@@ -27,52 +37,51 @@ function get<T>(params: RequestParams) {
 		.catch((error) => ({ data: null, error }));
 }
 
-function post(params: RequestParams) {
-	return axios({
+function post<T>(params: RequestParams): Promise<ResponseSuccess<T> | ResponseError> {
+	return axios<T>({
 		url: params.url,
 		method: "POST",
 		params: params.params,
 		data: params.data,
-		headers: params.headers,
 	})
-		.then((res) => res.data)
-		.catch((error) => ({ error }));
+		.then((res) => ({ data: res.data, error: null }))
+		.catch((error) => ({ data: null, error }));
 }
 
-function put(params: RequestParams) {
-	return axios({
+function put<T>(params: RequestParams): Promise<ResponseSuccess<T> | ResponseError> {
+	return axios<T>({
 		url: params.url,
 		method: "PUT",
 		params: params.params,
 		data: params.data,
 		headers: params.headers,
 	})
-		.then((res) => res.data)
-		.catch((error) => ({ error }));
+		.then((res) => ({ data: res.data, error: null }))
+		.catch((error) => ({ data: null, error }));
 }
 
-function patch(params: RequestParams) {
-	return axios({
+function patch<T>(params: RequestParams): Promise<ResponseSuccess<T> | ResponseError> {
+	return axios<T>({
 		url: params.url,
 		method: "PATCH",
 		params: params.params,
 		data: params.data,
 		headers: params.headers,
 	})
-		.then((res) => res.data)
-		.catch((error) => ({ error }));
+		.then((res) => ({ data: res.data, error: null }))
+		.catch((error) => ({ data: null, error }));
 }
 
-function del(params: RequestParams) {
-	return axios({
+function del<T>(params: RequestParams): Promise<ResponseSuccess<T> | ResponseError> {
+	return axios<T>({
 		url: params.url,
 		method: "DELETE",
 		params: params.params,
 		data: params.data,
 		headers: params.headers,
 	})
-		.then((res) => res.data)
-		.catch((error) => ({ error }));
+		.then((res) => ({ data: res.data, error: null }))
+		.catch((error) => ({ data: null, error }));
 }
 
 export default API;

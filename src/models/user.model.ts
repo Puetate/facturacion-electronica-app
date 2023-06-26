@@ -2,23 +2,24 @@ import { Company } from ".";
 
 export enum UserRoles {
 	USER = "user",
-	ADMIN = "admin",
+	ADMIN = "ADMINISTRADOR",
 	SUPER = "super",
 }
 
-export enum UserState {
-	ACTIVE = "activo",
-	INACTIVE = "inactivo",
+export enum State {
+	ACTIVE = "ACTIVO",
+	INACTIVE = "INACTIVO",
 }
 
+export const enumUserState = Object.values(State);
+
 export interface User {
-	id_user?: string,
+	id: string,
 	company: Company,
-	identificación:string,
+	identification: string,
 	email: string,
 	fullName: string,
-	password?: string,
-	state: boolean,
+	status: boolean,
 	rol: UserRoles,
-	phone:string,
+	telephone: string,
 }

@@ -9,7 +9,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const axiosConfig = axios.create({
 	baseURL: BASE_URL,
-	withCredentials: true,
+
 });
 
 axiosConfig.interceptors.request.use((config: InternalAxiosRequestConfig) => {
