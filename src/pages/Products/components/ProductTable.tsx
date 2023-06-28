@@ -7,6 +7,7 @@ import { useDisclosure } from "@mantine/hooks";
 import MantineDrawer from "../../../components/Drawer";
 import InputsFilters from "../../../components/InputsFilters";
 import { Title } from "../../../layouts";
+import { FormProduct } from ".";
 
 
 //const TITLE = "Categorías";
@@ -22,7 +23,7 @@ export interface ProductData {
     status: boolean | string
     minStock: number,
     maxStock:number
-    Product: string,
+    category: string,
     promotion: string,
     tax: string,
     
@@ -96,8 +97,8 @@ function ProductTable() {
             return setListProducts(listProductsRef.current);
         }
         const filteredList = listProductsRef.current.filter(
-            ({ Product, promotion, status, tax }: ProductData) => {
-                const filter = `${Product} ${promotion} ${status} ${tax}`;
+            ({ name, promotion, status, tax }: ProductData) => {
+                const filter = `${name} ${promotion} ${status} ${tax}`;
                 return filter.toLowerCase().includes(value.trim().toLowerCase());
 
             },
@@ -170,7 +171,7 @@ function ProductTable() {
             <DataTable columns={ProductsColumns} records={listProducts} />
             <ConfirmDialog opened={openedDialog} onClose={closeDialog} message={CONFIRM_MESSAGE} onConfirm={handleDeleteRoutineAlert} />
             <MantineDrawer opened={opened} close={close} >
-                {/* <FormProduct onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedProduct={selectedProduct} /> */}
+                <FormProduct onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedProduct={selectedProduct} />
             </MantineDrawer>
         </Flex>
     )
