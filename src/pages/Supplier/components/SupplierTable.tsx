@@ -19,8 +19,8 @@ const SUCCESS_DELETE = "Proveedor eliminado exitosamente"
 
 function SupplierTable() {
     const [listSuppliers, setListSuppliers] = useState<Supplier[]>([]);
-    const listSuppliersRef = useRef<Supplier[]>([]);
     const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null)
+    const listSuppliersRef = useRef<Supplier[]>([]);
     const [opened, { open, close }] = useDisclosure()
     const [openedDialog, { open: openDialog, close: closeDialog }] = useDisclosure()
 
@@ -59,9 +59,8 @@ function SupplierTable() {
     };
 
     const generalFilter = (value: string) => {
-        if (value == "") {
-            return setListSuppliers(listSuppliersRef.current);
-        }
+        if (value == "") return setListSuppliers(listSuppliersRef.current);
+
         const filteredList = listSuppliersRef.current.filter(
             ({ identification, name, email, address, telephone, status }: Supplier) => {
                 status = (status) ? State.ACTIVE : State.INACTIVE;
@@ -96,14 +95,16 @@ function SupplierTable() {
             render: (supplier) => (
                 <Group spacing={10} position="center" noWrap>
                     <>
-                        <ActionIcon
-                            color="red"
-                            variant="light"
+                        <Tooltip label="Eliminar">
+                            <ActionIcon
+                                color="red"
+                                variant="light"
+                                onClick={() => onClickDeleteButton(supplier)}
+                            >
+                                <IconTrash />
+                            </ActionIcon>
+                        </Tooltip>
 
-                            onClick={() => onClickDeleteButton(supplier)}
-                        >
-                            <IconTrash />
-                        </ActionIcon>
                         <Tooltip label="Editar">
                             <ActionIcon
                                 color="violet"
