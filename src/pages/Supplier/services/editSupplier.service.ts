@@ -4,6 +4,6 @@ import { EndPoints } from "../../../utils";
 
 export default async function editSupplierService(id: string, supplier: Supplier) {
     const url = `${EndPoints.SUPPLIER}/${id}`;
-    const res = await API.patch<Supplier>({ url, data: supplier })
-    return res
+    const res = await API.patch<Supplier>({ url, data: supplier });
+    return res;
 } 
