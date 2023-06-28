@@ -16,10 +16,10 @@ import Register from './pages/Register/Register';
 import Companies from './pages/Companies/Companies';
 import Reports from './pages/Reports/Reports';
 import Tax from './pages/Tax/Tax';
-import Providers from './pages/Providers/Providers';
 import Purchases from './pages/Purchases/Purchases';
 import Promotions from './pages/Promotions/Promotions';
 import Users from './pages/Users/Users';
+import Suppliers from './pages/Supplier/Suppliers';
 
 
 function App() {
@@ -45,7 +45,7 @@ function App() {
                 <Route path={AdminRoutes.products} element={<Products />} />
                 <Route path={AdminRoutes.tax} element={<Tax />} />
                 <Route path={AdminRoutes.clients} element={<Clients />} />
-                <Route path={AdminRoutes.providers} element={<Providers />} />
+                <Route path={AdminRoutes.providers} element={<Suppliers />} />
                 <Route path={AdminRoutes.purchases} element={<Purchases />} />
                 <Route path={AdminRoutes.promotions} element={<Promotions />} />
                 <Route path={AdminRoutes.users} element={<Users />} />

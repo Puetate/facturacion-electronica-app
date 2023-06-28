@@ -1,8 +1,9 @@
 export interface Supplier {
-	id_supplier?: string,
-	identification:string,
-    fullName: string,
-    phone:string,
+    id?: string,
+    identification: string,
+    name: string,
+    telephone: string,
     email: string,
-    city: string,
+    address: string,
+    status:boolean | string
 }
