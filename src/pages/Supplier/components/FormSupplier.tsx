@@ -1,12 +1,11 @@
 import { Button, Flex, Select, Text, TextInput, createStyles } from "@mantine/core"
 import { useRef, useState } from "react";
-import { State, Supplier, } from "../../../models";
+import {  Supplier, } from "../../../models";
 import { SnackbarManager, validateIdentification } from "../../../utils";
 import * as Yup from "yup";
 import { useForm, yupResolver } from "@mantine/form";
 import { editSupplierService, saveSupplierService } from "../services";
-
-
+import { itemState } from "../../Categories/components/FormCategory";
 
 const useStyles = createStyles((theme) => ({
     title: {
@@ -19,13 +18,6 @@ const useStyles = createStyles((theme) => ({
 
 }));
 
-
-
-export const itemState = [
-    { value: "true", label: State.ACTIVE },
-    { value: "false", label: State.INACTIVE },
-];
-
 const initialValues: Supplier = {
     id: "",
     name: "",
@@ -35,17 +27,6 @@ const initialValues: Supplier = {
     telephone: "",
     status: ""
 }
-
-Yup.addMethod(Yup.string, "validateIdentification", function (errorMessage) {
-    return this.test(`identification-validate`, errorMessage, function (value) {
-        const { path, createError } = this;
-
-        return (
-            (value && validateIdentification(value)) ||
-            createError({ path, message: errorMessage })
-        );
-    });
-});
 
 const validationSchema = Yup.object<Supplier>().shape({
     identification: Yup.string().required("La identificación es obligatoria").min(10).max(13).test("validate-identification", "Ingrese una identificación correcta", val => validateIdentification(val)),
@@ -68,15 +49,12 @@ function FormSupplier({ onSubmitSuccess, onCancel, selectedSupplier }:
     const [loading, setLoading] = useState(false);
     const idRef = useRef<string>(selectedSupplier?.id || "");
 
-
     const form = useForm({
         initialValues: idRef.current && selectedSupplier !== null ?
             { ...selectedSupplier } :
             initialValues,
         validate: yupResolver(validationSchema)
     })
-
-
 
     const handleSubmit = async (formSupplier: Supplier) => {
         setLoading(true)
@@ -98,7 +76,6 @@ function FormSupplier({ onSubmitSuccess, onCancel, selectedSupplier }:
 
     return (
         <Flex direction="column" p="lg">
-
             <Text className={classes.title} align="center" mb="lg">{idRef.current ? "Editar Categoría" : "Crear Categoría"}</Text>
             <form onSubmit={form.onSubmit(handleSubmit)} >
                 <Flex direction="column" gap="lg">
@@ -109,7 +86,6 @@ function FormSupplier({ onSubmitSuccess, onCancel, selectedSupplier }:
                         label="Identificación"
                         {...form.getInputProps("identification")}
                     />
-
                     <TextInput
                         withAsterisk
                         label="Nombre"
@@ -137,7 +113,6 @@ function FormSupplier({ onSubmitSuccess, onCancel, selectedSupplier }:
                         data={itemState}
                         {...form.getInputProps("status")}
                     />
-
                 </Flex>
                 <Flex justify="space-between" mt="lg">
                     <Button variant="white" onClick={onCancel}>Cancelar</Button>
