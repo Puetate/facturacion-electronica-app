@@ -8,12 +8,9 @@ import { DataTableColumn } from "mantine-datatable";
 import { IconCirclePlus, IconEdit, IconTrash } from "@tabler/icons-react";
 import { ConfirmDialog, DataTable } from "../../../components";
 import MantineDrawer from "../../../components/Drawer";
-
 import { getPromotionProperties } from "../../../utils/getPromotionProperties";
-import deletePromotionService from "../services/deletePromotion.service";
-import getPromotionService from "../services/getPromotion.service";
-import getPromotionsService from "../services/getPromotions.service";
 import FormPromotion from "./FormPromotions";
+import { deletePromotionService, getPromotionService, getPromotionsService } from "../services";
 
 const CONFIRM_MESSAGE = "¿Seguro que desea eliminar la promoción?"
 const SUCCESS_DELETE = "Promoción eliminada exitosamente"

@@ -5,9 +5,10 @@ import { SnackbarManager } from "../../../utils";
 import * as Yup from "yup";
 import { useForm, yupResolver } from "@mantine/form";
 import getCatalogTaxService, { Catalog } from "../../Tax/services/getCatalogTax.service";
-import { getCatalogPromotionsService } from "../../Promotions/services";
 import { ProductData } from "./ProductTable";
 import { getCatalogCategoryService } from "../../Categories/services";
+import { editProductService, saveProductService } from "../services";
+import { getCatalogPromotionsService } from "../../Promotions/services";
 
 
 const useStyles = createStyles((theme) => ({
@@ -83,19 +84,19 @@ function FormProduct({ onSubmitSuccess, onCancel, selectedProduct }:
         setLoading(true)
         console.log(formProduct);
 
-        /* formProduct.status = formProduct.status as boolean
+        formProduct.status = formProduct.status as boolean
         if (idRef.current !== "") {
             const res = await editProductService(idRef.current, formProduct)
             if (res.error || res.data == null) return setLoading(false)
-            SnackbarManager.success("Categoría editada exitosamente")
+            SnackbarManager.success("Producto editado exitosamente")
         } else {
             const res = await saveProductService(formProduct)
             if (res.error || res.data == null) return setLoading(false)
-            SnackbarManager.success("Categoría creada exitosamente")
+            SnackbarManager.success("Producto creado exitosamente")
         }
         setLoading(false)
         onSubmitSuccess()
-        onCancel(); */
+        onCancel();
     }
 
     const getCatalogTax = async () => {
@@ -112,8 +113,6 @@ function FormProduct({ onSubmitSuccess, onCancel, selectedProduct }:
 
     const getCatalogCategories = async () => {
         const catalog = await getCatalogCategoryService();
-        console.log(catalog);
-
         if (catalog === null) return;
         setCatalogCategories(catalog);
     }
@@ -134,10 +133,12 @@ function FormProduct({ onSubmitSuccess, onCancel, selectedProduct }:
                 <Flex direction="column" gap="md">
                     <TextInput
                         withAsterisk
+                        disabled={(idRef.current != "") ? true : false}
                         label="Nombre del Producto"
                         {...form.getInputProps("name")}
                     />
                     <TextInput
+                        disabled={(idRef.current != "") ? true : false}
                         width="1"
                         withAsterisk
                         label="Código"
@@ -147,6 +148,7 @@ function FormProduct({ onSubmitSuccess, onCancel, selectedProduct }:
                     <Select
                         clearable
                         withAsterisk
+                        disabled={(idRef.current != "") ? true : false}
                         label="Categoría"
                         placeholder="Seleccione"
                         data={catalogCategories!}

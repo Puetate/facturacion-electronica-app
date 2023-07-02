@@ -2,14 +2,12 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { DataTableColumn } from "mantine-datatable"
 import { ActionIcon, Button, Flex, Group, Tooltip, Text } from "@mantine/core";
 import { IconCirclePlus, IconEdit, IconTrash } from "@tabler/icons-react";
-import getCategoriesService from "../services/getCategories.service";
 import { ConfirmDialog, DataTable } from "../../../components";
 import { useDisclosure } from "@mantine/hooks";
 import { SnackbarManager, getCategoryProperties } from "../../../utils";
-import deleteCategoryService from "../services/deleteCategory.service";
 import MantineDrawer from "../../../components/Drawer";
 import { FormCategory } from ".";
-import { getCategoryService } from "../services";
+import { deleteCategoryService, getCategoriesService, getCategoryService } from "../services";
 import InputsFilters from "../../../components/InputsFilters";
 import { Title } from "../../../layouts";
 

@@ -2,11 +2,10 @@ import { Button, Flex, NumberInput, Select, Text, TextInput, createStyles } from
 import { State } from "../../../models";
 import { PromotionData } from "./PromotionTable";
 import * as Yup from "yup";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm, yupResolver } from "@mantine/form";
 import { SnackbarManager } from "../../../utils";
-import editPromotionService from "../services/editPromotion.service";
-import savePromotionService from "../services/savePromotion.service";
+import { editPromotionService, savePromotionService } from "../services";
 
 const useStyles = createStyles((theme) => ({
     title: {

@@ -1,7 +1,7 @@
-import { ProductCategory } from "../models";
+import { Category } from "../models";
 import { CategoryData } from "../pages/Categories/components/CategoryTable";
 
-export const getCategoryProperties = (productCategory: ProductCategory) => {
+export const getCategoryProperties = (productCategory: Category) => {
 
     const category: CategoryData = {
         id: productCategory.id || "",
@@ -9,19 +9,6 @@ export const getCategoryProperties = (productCategory: ProductCategory) => {
         promotion: ((productCategory.promotion) ? productCategory.promotion.id : "")!,
         tax: ((productCategory.tax) ? productCategory.tax.id : "")!,
         status: (productCategory.status) ? "true" : "false"
-
-    }
-    return category;
-}
-
-export const getCategoryRequest = (productCategory: CategoryData) => {
-
-    const category = {
-        id: productCategory.id || "",
-        category: productCategory.category,
-        promotionId: productCategory.promotion,
-        taxId: productCategory.tax,
-        status: productCategory.status
 
     }
     return category;

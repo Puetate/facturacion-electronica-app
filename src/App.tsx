@@ -9,7 +9,7 @@ import { CreditNote } from './pages/CreditNote';
 import { Products } from './pages/Products';
 import { AppLayout } from './layouts';
 import { Categories } from './pages/Categories';
-import { RequireAuth } from './components';
+import { CheckSession, RequireAuth } from './components';
 import Clients from './pages/Clients/Clients';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
@@ -30,10 +30,12 @@ function App() {
         <SnackbarManagerConfigurator />
         <BrowserRouter>
           <Routes>
-            <Route index element={<Navigate to={PublicRoutes.login} />} />
-            <Route path={PublicRoutes.login} element={<Login />} />
-            <Route path={PublicRoutes.register} element={<Register />} />
+            <Route path={PublicRoutes.default} element={<CheckSession />}>
 
+              <Route index element={<Navigate to={PublicRoutes.login} />} />
+              <Route path={PublicRoutes.login} element={<Login />} />
+              <Route path={PublicRoutes.register} element={<Register />} />
+            </Route>
             <Route element={<RequireAuth />}>
               <Route path={superRoutes.companies} element={<AppLayout />}>
                 <Route index element={<Companies />} />

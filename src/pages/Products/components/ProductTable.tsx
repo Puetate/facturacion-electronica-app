@@ -8,6 +8,8 @@ import MantineDrawer from "../../../components/Drawer";
 import InputsFilters from "../../../components/InputsFilters";
 import { Title } from "../../../layouts";
 import { FormProduct } from ".";
+import { getProductService, getProductsService } from "../services";
+import { getProductProperties } from "../../../utils";
 
 
 //const TITLE = "Categorías";
@@ -18,15 +20,15 @@ export interface ProductData {
     id: string,
     code: string,
     name: string,
-    price: number,
+    price: number | string,
     quantity: number,
     status: boolean | string
     minStock: number,
-    maxStock:number
+    maxStock: number
     category: string,
     promotion: string,
     tax: string,
-    
+
 }
 
 function ProductTable() {
@@ -39,13 +41,12 @@ function ProductTable() {
 
     const onClickEditButton = async (product: ProductData) => {
         console.log(product);
-        
-        /* const { id } = Product;
-        const productToEdit = await getProduct(id);
 
+        const { id } = product;
+        const productToEdit = await getProduct(id);
         if (productToEdit == null) return;
         setSelectedProduct({ ...productToEdit });
-        open() */
+        open()
     }
 
     const onClickDeleteButton = (Product: ProductData) => {
@@ -53,12 +54,12 @@ function ProductTable() {
         openDialog()
     }
 
-/*     const getProduct = async (id: string) => {
+    const getProduct = async (id: string) => {
         const res = await getProductService(id);
         if (res.error || res.data === null) return null;
 
         return getProductProperties(res.data.data);
-    }; */
+    };
 
     const handleDeleteRoutineAlert = async () => {
         const { id } = selectedProduct!;
@@ -75,21 +76,27 @@ function ProductTable() {
     }
 
     const getProducts = async () => {
-        /* const res = await getProductsService();
+        const res = await getProductsService();
         if (res.error || res.data === null) return
-        const ProductsData = res.data.data;
+        const productsData = res.data.data;
 
-        const Products: ProductData[] = ProductsData.map(Product => (
+        const products: ProductData[] = productsData.map(product => (
             {
-                id: Product.id || "",
-                Product: Product.Product,
-                tax: (Product.tax != null) ? `${Product.tax.percentage.toString()}%` : "",
-                promotion: (Product.promotion != null) ? Product.promotion.description : "",
-                status: Product.status
+                id: product.id,
+                code: product.code,
+                name: product.name,
+                price: `$ ${product.price}`,
+                quantity: product.quantity,
+                status: product.status,
+                minStock: product.minStock,
+                maxStock: product.maxStock,
+                category: (product.category != null) ? product.category.category : "",
+                promotion: (product.promotion != null) ? product.promotion.description : "",
+                tax: (product.tax?.percentage != null) ? `${product.tax.percentage}%` : "",
             }
         ));
-        setListProducts(Products);
-        listProductsRef.current = Products; */
+        setListProducts(products);
+        listProductsRef.current = products;
     };
 
     const generalFilter = (value: string) => {
@@ -97,10 +104,9 @@ function ProductTable() {
             return setListProducts(listProductsRef.current);
         }
         const filteredList = listProductsRef.current.filter(
-            ({ name, promotion, status, tax }: ProductData) => {
-                const filter = `${name} ${promotion} ${status} ${tax}`;
+            ({ code, name, promotion, status, category, tax }: ProductData) => {
+                const filter = `${code} ${category} ${name} ${promotion} ${status} ${tax}`;
                 return filter.toLowerCase().includes(value.trim().toLowerCase());
-
             },
         );
         return setListProducts(filteredList);

@@ -1,15 +1,11 @@
 import API from "../../../lib/API";
-import {  ProductCategory } from "../../../models";
+import {  Category, ResponseRequest, } from "../../../models";
 import { EndPoints } from "../../../utils";
-import { ResponseRequest } from "./getCategories.service";
-
-export interface OneCategoryResponse extends ResponseRequest {
-    data: ProductCategory
-}
 
 
-export default async function getCategoryService(id: string) {
+
+export async function getCategoryService(id: string) {
     const url = `${EndPoints.CATEGORY}/${id}`;
-    const res = await API.get<OneCategoryResponse>({ url });
+    const res = await API.get<ResponseRequest<Category>>({ url });
     return res;
 }
