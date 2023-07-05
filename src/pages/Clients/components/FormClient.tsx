@@ -25,6 +25,11 @@ export const itemState = [
     { value: "false", label: State.INACTIVE },
 ];
 
+export const typeClient = [
+    { value: TypeClient.NATURAL, label: TypeClient.NATURAL },
+    { value: TypeClient.JURIDICO, label: TypeClient.JURIDICO },
+];
+
 const initialValues: Client = {
     id: "",
     fullName: "",
@@ -32,8 +37,8 @@ const initialValues: Client = {
     email: "",
     identification: "",
     telephone: "",
-    type:TypeClient.NATURAL,
-    status: ""
+    type: TypeClient.NATURAL,
+    status: "true"
 }
 
 Yup.addMethod(Yup.string, "validateIdentification", function (errorMessage) {
@@ -49,10 +54,11 @@ Yup.addMethod(Yup.string, "validateIdentification", function (errorMessage) {
 
 const validationSchema = Yup.object<Client>().shape({
     identification: Yup.string().required("La identificación es obligatoria").min(10).max(13).test("validate-identification", "Ingrese una identificación correcta", val => validateIdentification(val)),
-    name: Yup.string().required("El nombre es obligatorio"),
+    fullName: Yup.string().required("El nombre es obligatorio"),
     address: Yup.string().required("La dirección es obligatorio"),
     email: Yup.string().required("El email es obligatorio"),
     telephone: Yup.string().required("El teléfono es obligatorio"),
+    type: Yup.string().required("El tipo de cliente es obligatorio"),
     status: Yup.string().required("El estado es obligatorio"),
 
 });
@@ -99,7 +105,7 @@ function FormClient({ onSubmitSuccess, onCancel, selectedClient }:
     return (
         <Flex direction="column" p="lg">
 
-            <Text className={classes.title} align="center" mb="lg">{idRef.current ? "Editar Categoría" : "Crear Categoría"}</Text>
+            <Text className={classes.title} align="center" mb="lg">{idRef.current ? "Editar Cliente" : "Crear Cliente"}</Text>
             <form onSubmit={form.onSubmit(handleSubmit)} >
                 <Flex direction="column" gap="lg">
                     <TextInput
@@ -113,7 +119,7 @@ function FormClient({ onSubmitSuccess, onCancel, selectedClient }:
                     <TextInput
                         withAsterisk
                         label="Nombre"
-                        {...form.getInputProps("name")}
+                        {...form.getInputProps("fullName")}
                     />
                     <TextInput
                         withAsterisk
@@ -130,6 +136,15 @@ function FormClient({ onSubmitSuccess, onCancel, selectedClient }:
                         label="Teléfono"
                         {...form.getInputProps("telephone")}
                     />
+
+                    <Select
+                        withAsterisk
+                        label="Tipo de cliente"
+                        placeholder="Seleccione"
+                        data={typeClient}
+                        {...form.getInputProps("type")}
+                    />
+
                     <Select
                         withAsterisk
                         label="Estado"
