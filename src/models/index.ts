@@ -1,6 +1,7 @@
 export * from './bill.model';
 export * from './billDetail.model';
 export * from './category.model';
+export * from './client.model';
 export * from './company.model';
 export * from './creditNote.model';
 export * from './creditNoteDetail.model';
