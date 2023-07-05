@@ -22,6 +22,7 @@ export interface AdminRoutes {
 	promotions: string;
 	reports: string;
 	users: string;
+	payments:string;
 }
 
 export interface SuperRoutes {
@@ -51,6 +52,7 @@ export const AdminRoutes: AdminRoutes = {
 	providers: "/reports/providers",
 	purchases: "/reports/purchases",
 	promotions: "/reports/promotions",
+	payments:"/reports/payments",
 	users: "/reports/users",
 };
 

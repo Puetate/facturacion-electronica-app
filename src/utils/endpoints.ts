@@ -4,5 +4,6 @@ export const enum EndPoints{
     PROMOTION=`${EndPoints.PROTECTED}/promotion`,
     TAX=`${EndPoints.PROTECTED}/tax`,
     SUPPLIER=`${EndPoints.PROTECTED}/supplier`,
-    PRODUCT=`${EndPoints.PROTECTED}/product`
+    PRODUCT=`${EndPoints.PROTECTED}/product`,
+    PAYMENT=`${EndPoints.PROTECTED}/payment`
 }

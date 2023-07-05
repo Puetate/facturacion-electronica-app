@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DataTableColumn } from "mantine-datatable"
 import { ActionIcon, Button, Flex, Group, Tooltip, Text } from "@mantine/core";
-import { IconCirclePlus, IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconCirclePlus, IconEdit } from "@tabler/icons-react";
 import { ConfirmDialog, DataTable } from "../../../components";
 import { useDisclosure } from "@mantine/hooks";
 import MantineDrawer from "../../../components/Drawer";
@@ -36,7 +36,7 @@ function ProductTable() {
     const listProductsRef = useRef<ProductData[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<ProductData | null>(null)
     const [opened, { open, close }] = useDisclosure()
-    const [openedDialog, { open: openDialog, close: closeDialog }] = useDisclosure()
+    const [openedDialog, { close: closeDialog }] = useDisclosure()
 
 
     const onClickEditButton = async (product: ProductData) => {
@@ -47,11 +47,6 @@ function ProductTable() {
         if (productToEdit == null) return;
         setSelectedProduct({ ...productToEdit });
         open()
-    }
-
-    const onClickDeleteButton = (Product: ProductData) => {
-        setSelectedProduct(Product);
-        openDialog()
     }
 
     const getProduct = async (id: string) => {
@@ -138,25 +133,15 @@ function ProductTable() {
             title: "Acciones",
             render: (Product) => (
                 <Group spacing={10} position="center" noWrap>
-                    <>
+                    <Tooltip label="Editar">
                         <ActionIcon
-                            color="red"
+                            color="violet"
                             variant="light"
-
-                            onClick={() => onClickDeleteButton(Product)}
+                            onClick={() => onClickEditButton(Product)}
                         >
-                            <IconTrash />
+                            <IconEdit />
                         </ActionIcon>
-                        <Tooltip label="Editar">
-                            <ActionIcon
-                                color="violet"
-                                variant="light"
-                                onClick={() => onClickEditButton(Product)}
-                            >
-                                <IconEdit />
-                            </ActionIcon>
-                        </Tooltip>
-                    </>
+                    </Tooltip>
                 </Group>
             ),
             textAlignment: 'center'

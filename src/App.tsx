@@ -20,6 +20,7 @@ import Purchases from './pages/Purchases/Purchases';
 import Promotions from './pages/Promotions/Promotions';
 import Users from './pages/Users/Users';
 import Suppliers from './pages/Supplier/Suppliers';
+import PaymentMethods from './pages/PaymentsMethods/PaymentMethods';
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
                 <Route path={AdminRoutes.providers} element={<Suppliers />} />
                 <Route path={AdminRoutes.purchases} element={<Purchases />} />
                 <Route path={AdminRoutes.promotions} element={<Promotions />} />
+                <Route path={AdminRoutes.payments} element={<PaymentMethods />} />
                 <Route path={AdminRoutes.users} element={<Users />} />
               </Route>
 
