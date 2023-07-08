@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DataTableColumn } from "mantine-datatable"
 import { ActionIcon, Button, Flex, Group, Text, Tooltip } from "@mantine/core";
-import { IconCirclePlus, IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconCirclePlus, IconEdit } from "@tabler/icons-react";
 import getTaxService from "../services/getTax.service";
 import { ConfirmDialog, DataTable } from "../../../components";
 import { useDisclosure } from "@mantine/hooks";
@@ -45,10 +45,6 @@ function TaxTable() {
         open()
     }
 
-    const onClickDeleteButton = (tax: TaxData) => {
-        setSelectedTax(tax);
-        openDialog()
-    }
 
     const getTax = async (id: string) => {
         const res = await getTaxService(id);
@@ -122,14 +118,7 @@ function TaxTable() {
             render: (tax) => (
                 <Group spacing={10} position="center" noWrap>
                     <>
-                        <ActionIcon
-                            color="red"
-                            variant="light"
-
-                            onClick={() => onClickDeleteButton(tax)}
-                        >
-                            <IconTrash />
-                        </ActionIcon>
+                        
                         <Tooltip label="Editar">
                             <ActionIcon
                                 color="violet"

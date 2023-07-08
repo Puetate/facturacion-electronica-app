@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { SnackbarManager } from "../../../utils";
 import { DataTableColumn } from "mantine-datatable";
-import { IconCirclePlus, IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconCirclePlus, IconEdit } from "@tabler/icons-react";
 import { ConfirmDialog, DataTable } from "../../../components";
 import MantineDrawer from "../../../components/Drawer";
 import { getPromotionProperties } from "../../../utils/getPromotionProperties";
@@ -39,10 +39,6 @@ function PromotionTable() {
         open()
     }
 
-    const onClickDeleteButton = (promotion: PromotionData) => {
-        setSelectedPromotion(promotion);
-        openDialog()
-    }
 
     const getPromotion = async (id: string) => {
         const res = await getPromotionService(id);
@@ -116,14 +112,7 @@ function PromotionTable() {
             render: (promotion) => (
                 <Group spacing={10} position="center" noWrap>
                     <>
-                        <ActionIcon
-                            color="red"
-                            variant="light"
-
-                            onClick={() => onClickDeleteButton(promotion)}
-                        >
-                            <IconTrash />
-                        </ActionIcon>
+                       
                         <Tooltip label="Editar">
                             <ActionIcon
                                 color="violet"
