@@ -1,11 +1,12 @@
 
-import { Button, Navbar, Text, createStyles, getStylesRef, rem } from '@mantine/core';
-import {
-    IconLogout,
-} from '@tabler/icons-react';
+import { Button, Center, Menu, Modal, Navbar, Text, createStyles, getStylesRef, rem } from '@mantine/core';
+import { IconInfoCircle, IconKey, IconLogout, } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { PublicRoutes } from '../../models';
 import { useSessionStore } from '../../store';
+import { useState } from 'react';
+import { FormChangePassword } from '.';
+import FormInformation from './FormInformation';
 
 const useStyles = createStyles((theme) => ({
     navbar: {
@@ -16,19 +17,29 @@ const useStyles = createStyles((theme) => ({
         textTransform: 'uppercase',
         letterSpacing: rem(-0.25),
     },
-
+    button: {
+        ...theme.fn.focusStyles(),
+        fontSize: theme.fontSizes.sm,
+        alignItems: 'center',
+        width: "100%",
+        padding: ".2rem",
+    },
+    menuItem: {
+        // Estilos de los elementos del menú
+        // ...
+    },
     link: {
         ...theme.fn.focusStyles(),
         display: 'flex',
-        width:"100%",
+        width: "100%",
         alignItems: 'center',
-        backgroundColor:"transparent",
+        backgroundColor: "transparent",
         fontSize: theme.fontSizes.sm,
         color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7],
         padding: ".5rem",
         borderRadius: theme.radius.sm,
         fontWeight: 500,
-        
+
 
         '&:hover': {
             backgroundColor: "#C0CEFF81",
@@ -86,35 +97,81 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
+
 function Footer() {
     const { user, logout } = useSessionStore();
-	const navigate = useNavigate();
-
-
+    const navigate = useNavigate();
+    const [showMenu, setShowMenu] = useState(false);
+    const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
+    const [showInfoForm, setShowInfoForm] = useState(false);
+  
     const handleLogout = () => {
-        navigate(PublicRoutes.login);
-        logout();
+      navigate(PublicRoutes.login);
+      logout();
     };
-
+  
+    const handleOpenChangePassword = () => {
+      setShowMenu(false);
+      setShowChangePasswordForm(true);
+      setShowInfoForm(false);
+    };
+  
+    const handleOpenInfo = () => {
+      setShowMenu(false);
+      setShowChangePasswordForm(false);
+      setShowInfoForm(true);
+    };
+  
+    const handleCloseForm = () => {
+      setShowChangePasswordForm(false);
+      setShowInfoForm(false);
+    };
+  
     const { classes } = useStyles();
+  
     return (
-        <Navbar.Section className={classes.footer}>
-
-            <Text className={classes.account}>
-                {user.fullName}
-            </Text>
-            <Text className={classes.email}>
-                {user.email}
-            </Text>
-            <Button
-                className={classes.link}
-                onClick={ handleLogout}
-            >
-                <IconLogout className={classes.linkIcon} stroke={1.5} />
-                <span>Cerrar Sesión</span>
+      <Navbar.Section className={classes.footer}>
+        <Button onClick={() => setShowMenu(!showMenu)} className={classes.button}>
+          Configuración
+        </Button>
+  
+        {showMenu && (
+          <Menu position="bottom" onClose={() => setShowMenu(false)}>
+            <Menu.Item onClick={handleOpenChangePassword} className={classes.menuItem}>
+              <IconKey className={classes.linkIcon} size={18} />
+              <span>Cambiar contraseña</span>
+            </Menu.Item>
+            <Menu.Item onClick={handleOpenInfo} className={classes.menuItem}>
+              <IconInfoCircle className={classes.linkIcon} size={18} />
+              <span>Información</span>
+            </Menu.Item>
+          </Menu>
+        )}
+  
+        <Modal opened={showChangePasswordForm} onClose={handleCloseForm} size="md">
+          <Center>
+            {showChangePasswordForm && <FormChangePassword onSubmitSuccess={handleCloseForm} />} {/* Renderiza el formulario de cambio de contraseña si showChangePasswordForm es true */}
+          </Center>
+        </Modal>
+  
+        <Modal opened={showInfoForm} onClose={handleCloseForm} size="lg">
+          <Center>
+            {showInfoForm && <FormInformation onSubmitSuccess={handleCloseForm} />} {/* Renderiza el formulario de información si showInfoForm es true */}
+          </Center>
+        </Modal>
+  
+        {!showChangePasswordForm && !showInfoForm && (
+          <>
+            <Text className={classes.account}>{user.fullName}</Text>
+            <Text className={classes.email}>{user.email}</Text>
+            <Button className={classes.link} onClick={handleLogout}>
+              <IconLogout className={classes.linkIcon} stroke={1.5} />
+              <span>Cerrar Sesión</span>
             </Button>
-        </Navbar.Section>
-    )
-}
-
-export default Footer
+          </>
+        )}
+      </Navbar.Section>
+    );
+  }
+  
+  export default Footer;

@@ -1,22 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DataTableColumn } from "mantine-datatable"
 import { ActionIcon, Button, Flex, Group, Tooltip, Text } from "@mantine/core";
-import { IconCirclePlus, IconEdit, IconTrash } from "@tabler/icons-react";
-import getCategoriesService from "../services/getCategories.service";
-import { ConfirmDialog, DataTable } from "../../../components";
+import { IconCirclePlus, IconEdit } from "@tabler/icons-react";
+import {  DataTable } from "../../../components";
 import { useDisclosure } from "@mantine/hooks";
-import { SnackbarManager, getCategoryProperties } from "../../../utils";
-import deleteCategoryService from "../services/deleteCategory.service";
+import {  getCategoryProperties } from "../../../utils";
 import MantineDrawer from "../../../components/Drawer";
 import { FormCategory } from ".";
-import { getCategoryService } from "../services";
+import { getCategoriesService, getCategoryService } from "../services";
 import InputsFilters from "../../../components/InputsFilters";
 import { Title } from "../../../layouts";
 
 
-//const TITLE = "Categorías";
-const CONFIRM_MESSAGE = "¿Seguro que desea eliminar la categoría?"
-const SUCCESS_DELETE = "Categoría eliminada exitosamente"
 
 export interface CategoryData {
     id: string,
@@ -31,7 +26,6 @@ function CategoryTable() {
     const listCategoriesRef = useRef<CategoryData[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<CategoryData | null>(null)
     const [opened, { open, close }] = useDisclosure()
-    const [openedDialog, { open: openDialog, close: closeDialog }] = useDisclosure()
 
 
     const onClickEditButton = async (category: CategoryData) => {
@@ -43,10 +37,6 @@ function CategoryTable() {
         open()
     }
 
-    const onClickDeleteButton = (category: CategoryData) => {
-        setSelectedCategory(category);
-        openDialog()
-    }
 
     const getCategory = async (id: string) => {
         const res = await getCategoryService(id);
@@ -55,15 +45,6 @@ function CategoryTable() {
         return getCategoryProperties(res.data.data);
     };
 
-    const handleDeleteRoutineAlert = async () => {
-        const { id } = selectedCategory!;
-        if (!id) return;
-        const res = await deleteCategoryService(id);
-        if (res.error || res.data === null) return
-        SnackbarManager.success(SUCCESS_DELETE)
-        onSubmitSuccess();
-        closeDialog();
-    }
     const onClickAddButton = () => {
         setSelectedCategory(null);
         open()
@@ -121,25 +102,15 @@ function CategoryTable() {
             title: "Acciones",
             render: (category) => (
                 <Group spacing={10} position="center" noWrap>
-                    <>
+                    <Tooltip label="Editar">
                         <ActionIcon
-                            color="red"
+                            color="violet"
                             variant="light"
-
-                            onClick={() => onClickDeleteButton(category)}
+                            onClick={() => onClickEditButton(category)}
                         >
-                            <IconTrash />
+                            <IconEdit />
                         </ActionIcon>
-                        <Tooltip label="Editar">
-                            <ActionIcon
-                                color="violet"
-                                variant="light"
-                                onClick={() => onClickEditButton(category)}
-                            >
-                                <IconEdit />
-                            </ActionIcon>
-                        </Tooltip>
-                    </>
+                    </Tooltip>
                 </Group>
             ),
             textAlignment: 'center'
@@ -158,7 +129,6 @@ function CategoryTable() {
                 </Button>
             </Flex>
             <DataTable columns={categoriesColumns} records={listCategories} />
-            <ConfirmDialog opened={openedDialog} onClose={closeDialog} message={CONFIRM_MESSAGE} onConfirm={handleDeleteRoutineAlert} />
             <MantineDrawer opened={opened} close={close} >
                 <FormCategory onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedCategory={selectedCategory} />
             </MantineDrawer>

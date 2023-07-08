@@ -1,17 +1,17 @@
-import { Category } from "./productCategory.model";
+import { Tax } from ".";
+import { Category } from "./category.model";
 import { Promotion } from "./promotion.model";
 
 export interface Product {
-    id_product?: string,
-    categoryProduct: Category,
-    promotion: Promotion,
-    codeProduct: string,
+    id: string,
+    code: string,
     name: string,
     price: number,
-    quality: number,
-    state: boolean,
-    elaborationDate: Date,
-    expirationDate: Date,
-    minimumStock: number,
-    maximumStock:number
+    quantity: number,
+    status: boolean,
+    minStock: number,
+    maxStock: number
+    category: Category,
+    promotion: Promotion,
+    tax:Tax
 }

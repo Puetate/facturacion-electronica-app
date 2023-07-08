@@ -1,14 +1,13 @@
 import { Button, Flex, Select, Text, TextInput, createStyles } from "@mantine/core"
 import { useEffect, useRef, useState } from "react";
 import { State, } from "../../../models";
-import editCategoryService from "../services/editCategory.service";
 import { SnackbarManager} from "../../../utils";
 import * as Yup from "yup";
 import { useForm, yupResolver } from "@mantine/form";
 import { CategoryData } from "./CategoryTable";
-import saveCategoryService from "../services/saveCategory.service";
 import getCatalogTaxService, { Catalog } from "../../Tax/services/getCatalogTax.service";
 import { getCatalogPromotionsService } from "../../Promotions/services";
+import { editCategoryService, saveCategoryService } from "../services";
 
 
 const useStyles = createStyles((theme) => ({

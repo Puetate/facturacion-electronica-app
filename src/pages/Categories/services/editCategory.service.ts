@@ -1,9 +1,10 @@
 import API from "../../../lib/API";
+import { Category, ResponseRequest } from "../../../models";
 import { EndPoints } from "../../../utils";
 import { CategoryData } from "../components/CategoryTable";
 
-export default async function editCategoryService(id: string, category: CategoryData) {
+export async function editCategoryService(id: string, category: CategoryData) {
     const url = `${EndPoints.CATEGORY}/${id}`;
-    const res = await API.patch<CategoryData>({ url, data: category })
+    const res = await API.patch<ResponseRequest<Category>>({ url, data: category })
     return res
 } 

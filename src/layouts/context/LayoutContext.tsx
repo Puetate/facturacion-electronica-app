@@ -30,6 +30,7 @@ const TITLE_PATH = {
 	[AdminRoutes.products]: "Productos",
 	[AdminRoutes.reports]: "Reportes",
 	[AdminRoutes.tax]: "Impuesto",
+	[AdminRoutes.payments]: "Métodos de pago",
 	[AdminRoutes.users]: "Usuarios",
 };
 

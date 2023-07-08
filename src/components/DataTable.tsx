@@ -18,10 +18,14 @@ export default function DataTable<T>(props: DataTableProps<T>) {
 	const theme = useMantineTheme()
 	const titleStyle = useMemo(() => ({ backgroundColor: theme.colors.blue[6], color: "white" }), [])
 
-	useEffect(() => {
+	const onPageChange = () => {
 		const from = (page - 1) * PAGE_SIZE;
 		const to = from + PAGE_SIZE;
 		setTableRecords(recordsRef.current?.slice(from, to));
+	}
+
+	useEffect(() => {
+		onPageChange();
 	}, [page]);
 
 	useEffect(() => {
@@ -37,7 +41,7 @@ export default function DataTable<T>(props: DataTableProps<T>) {
 			}, 3000);
 		} else {
 			recordsRef.current = props.records;
-			setTableRecords(props.records?.slice(0, PAGE_SIZE));
+			onPageChange();
 			setFetching(false)
 		}
 	}, [props.records]);

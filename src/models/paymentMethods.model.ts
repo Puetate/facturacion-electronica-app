@@ -1,4 +1,5 @@
 export interface PaymentMethods {
-	id_paymentMethods?: string,
-    paymentMethods:string
+	id?: string,
+    payment:string,
+    status:string | boolean
 }

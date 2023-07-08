@@ -9,17 +9,18 @@ import { CreditNote } from './pages/CreditNote';
 import { Products } from './pages/Products';
 import { AppLayout } from './layouts';
 import { Categories } from './pages/Categories';
-import { RequireAuth } from './components';
+import { CheckSession, RequireAuth } from './components';
 import Clients from './pages/Clients/Clients';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Companies from './pages/Companies/Companies';
 import Reports from './pages/Reports/Reports';
 import Tax from './pages/Tax/Tax';
-import Providers from './pages/Providers/Providers';
 import Purchases from './pages/Purchases/Purchases';
 import Promotions from './pages/Promotions/Promotions';
 import Users from './pages/Users/Users';
+import Suppliers from './pages/Supplier/Suppliers';
+import PaymentMethods from './pages/PaymentsMethods/PaymentMethods';
 
 
 function App() {
@@ -30,10 +31,12 @@ function App() {
         <SnackbarManagerConfigurator />
         <BrowserRouter>
           <Routes>
-            <Route index element={<Navigate to={PublicRoutes.login} />} />
-            <Route path={PublicRoutes.login} element={<Login />} />
-            <Route path={PublicRoutes.register} element={<Register />} />
+            <Route path={PublicRoutes.default} element={<CheckSession />}>
 
+              <Route index element={<Navigate to={PublicRoutes.login} />} />
+              <Route path={PublicRoutes.login} element={<Login />} />
+              <Route path={PublicRoutes.register} element={<Register />} />
+            </Route>
             <Route element={<RequireAuth />}>
               <Route path={superRoutes.companies} element={<AppLayout />}>
                 <Route index element={<Companies />} />
@@ -45,9 +48,10 @@ function App() {
                 <Route path={AdminRoutes.products} element={<Products />} />
                 <Route path={AdminRoutes.tax} element={<Tax />} />
                 <Route path={AdminRoutes.clients} element={<Clients />} />
-                <Route path={AdminRoutes.providers} element={<Providers />} />
+                <Route path={AdminRoutes.providers} element={<Suppliers />} />
                 <Route path={AdminRoutes.purchases} element={<Purchases />} />
                 <Route path={AdminRoutes.promotions} element={<Promotions />} />
+                <Route path={AdminRoutes.payments} element={<PaymentMethods />} />
                 <Route path={AdminRoutes.users} element={<Users />} />
               </Route>
 

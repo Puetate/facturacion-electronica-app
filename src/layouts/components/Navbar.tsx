@@ -19,6 +19,7 @@ import {
 	IconShoppingBag,
 	IconUsersGroup,
 	IconUserShield,
+	IconWallet,
 } from "@tabler/icons-react";
 import { AdminRoutes, superRoutes, UserRoutes } from "../../models";
 import { useSessionStore } from "../../store";
@@ -101,6 +102,7 @@ const linksAdmin: LinksGroupProps[] = [
 	{ label: "Proveedores", icon: IconPackageImport, links: [{ label: "", link: AdminRoutes.providers }] }, //IconTruckReturn
 	{ label: "Compras", icon: IconShoppingBag, links: [{ label: "", link: AdminRoutes.purchases }] },
 	{ label: "Promociones", icon: IconDiscount, links: [{ label: "", link: AdminRoutes.promotions }] },
+	{ label: "Métodos de Pago", icon: IconWallet, links: [{ label: "", link: AdminRoutes.payments }] },
 	{ label: "Usuarios", icon: IconUserShield, links: [{ label: "", link: AdminRoutes.users }] },
 ];
 

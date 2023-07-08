@@ -1,8 +1,9 @@
 import API from "../../../lib/API";
+import { ResponseRequest } from "../../../models";
 import { EndPoints } from "../../../utils";
 import { CategoryData } from "../components/CategoryTable";
 
-export default async function saveCategoryService(category: CategoryData) {
-    const res = await API.post<CategoryData>({ url: EndPoints.CATEGORY, data: category });
+export async function saveCategoryService(category: CategoryData) {
+    const res = await API.post<ResponseRequest<CategoryData>>({ url: EndPoints.CATEGORY, data: category });
     return res;
 }
