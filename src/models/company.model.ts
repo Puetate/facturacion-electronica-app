@@ -1,6 +1,7 @@
 export enum CompanyType {
-    EMPTY = "",
-    TECHNOLOGY = ""
+    EMPTY = "EMPTY",
+    TECHNOLOGY = "TECHNOLOGY",
+    NATURAL = "NATURAL"
 }
 export enum EnvironmentType {
     PRODUCTION = "PRODUCCION",
