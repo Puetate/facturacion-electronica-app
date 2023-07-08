@@ -27,7 +27,8 @@ const useStyles = createStyles((theme) => ({
     textTransform: "uppercase",
     fontWeight: "bold",
     color: theme.colors.blue[6],
-    marginBottom: ".5rem",
+    marginBottom: ".3rem",
+    marginTop:".1rem",
   },
   description: {
     fontWeight: "normal",
@@ -52,11 +53,12 @@ const useStyles = createStyles((theme) => ({
   button: {
     marginTop: "1rem",
     textTransform: "uppercase",
+    marginBottom: ".8rem",
   },
   logoContainer: {
     display: "flex",
     justifyContent: "center",
-    marginBottom: "0.5rem",
+    marginBottom: "0.2rem",
   },
   logo: {
     width: "100px",

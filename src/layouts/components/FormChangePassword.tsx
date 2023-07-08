@@ -22,12 +22,12 @@ const useStyles = createStyles((theme) => ({
 	title: {
 		textTransform: "uppercase",
 		fontWeight: "bold",
-		color: theme.colors.green[6],
+		color: theme.colors.blue[6],
 		marginBottom: ".5rem",
 	},
 	description: {
 		fontWeight: "normal",
-		color: theme.colors.green[2],
+		color: theme.colors.blue[2],
 		marginTop: ".2rem",
 		marginBottom: ".2rem",
 	},
@@ -37,12 +37,12 @@ const useStyles = createStyles((theme) => ({
 		gap: ".5rem",
 	},
 	input: {
-		borderColor: "green",
+		borderColor: "blue",
 		":focus": {
-			borderColor: "green",
+			borderColor: "blue",
 		},
 		":focus-within": {
-			borderColor: "green",
+			borderColor: "blue",
 		},
 	},
 
