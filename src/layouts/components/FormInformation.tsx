@@ -1,7 +1,6 @@
-import { useState } from "react";
+
 import {
   Box,
-  Button,
   TextInput,
   Text,
   createStyles,
@@ -10,9 +9,7 @@ import {
   Col,
   Select,
 } from "@mantine/core";
-import { useForm, yupResolver } from "@mantine/form";
-import * as Yup from "yup";
-import { SnackbarManager } from "../../utils";
+import { useForm } from "@mantine/form";
 import { useSessionStore } from "../../store";
 import { Company, CompanyType, EnvironmentType } from "../../models";
 
@@ -28,7 +25,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: "bold",
     color: theme.colors.blue[6],
     marginBottom: ".3rem",
-    marginTop:".1rem",
+    marginTop: ".1rem",
   },
   description: {
     fontWeight: "normal",
@@ -49,11 +46,6 @@ const useStyles = createStyles((theme) => ({
     ":focus-within": {
       borderColor: "blue",
     },
-  },
-  button: {
-    marginTop: "1rem",
-    textTransform: "uppercase",
-    marginBottom: ".8rem",
   },
   logoContainer: {
     display: "flex",
@@ -89,27 +81,12 @@ export default function FormInformation({
 }) {
   const { user: admin } = useSessionStore();
   const { classes } = useStyles();
-  const [loading, setLoading] = useState(false);
 
-  const validationSchema = Yup.object<Company>().shape({
-    // Validación omitida para mayor claridad
-  });
 
   const form = useForm({
     initialValues: admin ? admin.company : defaultValues,
-    validate: yupResolver(validationSchema),
   });
 
-  const handleSubmit = async (company: Company) => {
-    setLoading(true);
-    // Aquí puedes hacer la llamada a la API para guardar los datos de la empresa
-    // Puedes usar los valores de `company` y `admin` (el usuario administrador) para enviar los datos necesarios
-    // Ejemplo: await saveCompanyData(company, admin);
-    // Si la llamada a la API tiene éxito, puedes mostrar una notificación y llamar a `onSubmitSuccess()`
-    SnackbarManager.success("Datos de la empresa guardados exitosamente");
-    setLoading(false);
-    onSubmitSuccess();
-  };
 
   const companyTypeOptions = Object.values(CompanyType);
   const environmentTypeOptions = Object.values(EnvironmentType);
@@ -123,7 +100,7 @@ export default function FormInformation({
       <Center className={classes.logoContainer}>
         {form.values.logo ? (
           <img
-            src="https://www.heladospinguino.com.ec/content/dam/unilever/heart/ecuador/website/logo_pinguino-1900870-png.png"
+            src="https://img.freepik.com/iconos-gratis/usuario_318-875902.jpg"
             alt="Logo"
             className={classes.logo}
           />
@@ -135,22 +112,25 @@ export default function FormInformation({
           />
         )}
       </Center>
-      <form onSubmit={form.onSubmit(handleSubmit)} className={classes.form}>
+      <form className={classes.form}>
         <TextInput
           classNames={classes}
           label="RUC"
           {...form.getInputProps("ruc")}
+          disabled
         />
 
         <TextInput
           classNames={classes}
           label="Nombre de la Empresa"
           {...form.getInputProps("name")}
+          disabled
         />
         <TextInput
           classNames={classes}
           label="Correo Electrónico"
           {...form.getInputProps("email")}
+          disabled
         />
 
         <Grid>
@@ -159,6 +139,7 @@ export default function FormInformation({
               classNames={classes}
               label="Ciudad"
               {...form.getInputProps("address")}
+              disabled
             />
           </Col>
           <Col span={6}>
@@ -166,6 +147,7 @@ export default function FormInformation({
               classNames={classes}
               label="Teléfono"
               {...form.getInputProps("phone")}
+              disabled
             />
           </Col>
         </Grid>
@@ -176,8 +158,9 @@ export default function FormInformation({
           value={form.values.type}
           onChange={(value) => form.setValues({ ...form.values, type: value as CompanyType })}
           data={companyTypeOptions}
+          disabled
         />
-        <Grid gutter="md">
+        <Grid gutter="md" >
           <Col span={6}>
             <Select
               classNames={classes}
@@ -185,9 +168,11 @@ export default function FormInformation({
               value={form.values.environment}
               onChange={(value) => form.setValues({ ...form.values, environment: value as EnvironmentType })}
               data={environmentTypeOptions}
+              disabled
             />
           </Col>
-          <Col span={6}>
+          <Col span={6}
+            style={{ marginBottom: '30px' }}>
             <Select
               classNames={classes}
               label="Contabilidad"
@@ -197,18 +182,10 @@ export default function FormInformation({
                 { value: "yes", label: "Sí" },
                 { value: "no", label: "No" },
               ]}
+              disabled
             />
           </Col>
         </Grid>
-
-        <Button
-          className={classes.button}
-          color="green"
-          type="submit"
-          loading={loading}
-        >
-          Guardar
-        </Button>
       </form>
     </Box>
   );
