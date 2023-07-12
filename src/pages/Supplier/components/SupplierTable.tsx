@@ -94,7 +94,7 @@ function SupplierTable() {
                         <ActionIcon
                             color="violet"
                             variant="light"
-                            onClick={() => onClickEditButton({...supplier})}
+                            onClick={() => onClickEditButton({ ...supplier })}
                         >
                             <IconEdit />
                         </ActionIcon>
@@ -118,7 +118,7 @@ function SupplierTable() {
             </Flex>
             <DataTable columns={SuppliersColumns} records={listSuppliers} />
             <ConfirmDialog opened={openedDialog} onClose={closeDialog} message={CONFIRM_MESSAGE} onConfirm={handleDeleteRoutineAlert} />
-            <MantineDrawer opened={opened} close={close} >
+            <MantineDrawer opened={opened} close={close} isBig={false} >
                 <FormSupplier onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedSupplier={selectedSupplier} />
             </MantineDrawer>
         </Flex>

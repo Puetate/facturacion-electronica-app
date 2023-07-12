@@ -7,6 +7,7 @@ import { useDisclosure } from "@mantine/hooks";
 import MantineDrawer from "../../../components/Drawer";
 import InputsFilters from "../../../components/InputsFilters";
 import { Title } from "../../../layouts";
+import { FormPurchase } from ".";
 
 export interface PurchaseData {
     id: string,
@@ -15,8 +16,8 @@ export interface PurchaseData {
     supplier: number | string,
     quantity: number,
     total: boolean | string
-    user: number,
-    payment: number
+    user: string,
+    payment: string
 }
 
 function PurchaseTable() {
@@ -38,10 +39,10 @@ function PurchaseTable() {
     }
 
     const getPurchase = async (id: string) => {
-       /*  const res = await getPurchaseService(id);
-        if (res.error || res.data === null) return null;
-
-        return getPurchaseProperties(res.data.data); */
+        /*  const res = await getPurchaseService(id);
+         if (res.error || res.data === null) return null;
+ 
+         return getPurchaseProperties(res.data.data); */
     };
 
     const handleDeleteRoutineAlert = async () => {
@@ -144,9 +145,9 @@ function PurchaseTable() {
                     Agregar
                 </Button>
             </Flex>
-            <DataTable columns={PurchasesColumns} records={listPurchases} />
-            <MantineDrawer opened={opened} close={close} >
-                {/* <FormPurchase onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedPurchase={selectedPurchase} /> */}
+            {/* <DataTable columns={PurchasesColumns} records={listPurchases} /> */}
+            <MantineDrawer opened={opened} close={close} isBig={true} >
+                <FormPurchase onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedPurchase={selectedPurchase} />
             </MantineDrawer>
         </Flex>
     )

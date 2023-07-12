@@ -1,14 +1,13 @@
-import { Button, Flex, NumberInput, Select, Text, TextInput, createStyles } from "@mantine/core"
+import { Button, Flex, NumberInput, Select, Space, Text, TextInput, createStyles } from "@mantine/core"
 import { useEffect, useRef, useState } from "react";
-import { State, } from "../../../models";
+import { Catalog, State, } from "../../../models";
 import { SnackbarManager } from "../../../utils";
 import * as Yup from "yup";
 import { useForm, yupResolver } from "@mantine/form";
-import getCatalogTaxService, { Catalog } from "../../Tax/services/getCatalogTax.service";
-import { ProductData } from "./PurchaseTable";
-import { getCatalogCategoryService } from "../../Categories/services";
-import { editProductService, saveProductService } from "../services";
-import { getCatalogPromotionsService } from "../../Promotions/services";
+import { PurchaseData } from "./PurchaseTable";
+import { getCatalogSuppliersService } from "../../Supplier/services";
+import { ProductTable } from "../../Products/components";
+import { IconCirclePlus } from "@tabler/icons-react";
 
 
 const useStyles = createStyles((theme) => ({
@@ -21,7 +20,23 @@ const useStyles = createStyles((theme) => ({
     },
     input: {
         flex: "40%"
-    }
+    },
+    labelTotal: {
+        color: theme.colors.blue[5],
+        fontSize: "1.5rem",
+        fontWeight: "bold",
+        [theme.fn.smallerThan("sm")]: {
+            display: "none",
+        },
+    },
+    total: {
+        color: theme.colors.black[7],
+        fontSize: "2.2rem",
+        fontWeight: "bold",
+        [theme.fn.smallerThan("sm")]: {
+            display: "none",
+        },
+    },
 
 }));
 
@@ -32,213 +47,102 @@ export const itemState = [
     { value: "false", label: State.INACTIVE },
 ];
 
-const initialValues: ProductData = {
+const initialValues: PurchaseData = {
     id: "",
-    code: "",
-    name: "",
-    price: 0.00,
+    purchaseNumber: "",
+    purchaseDate: "",
+    supplier: "",
     quantity: 0,
-    status: "",
-    minStock: 0,
-    maxStock: 5,
-    category: "",
-    promotion: "",
-    tax: "",
+    total: "",
+    user: "",
+    payment: "",
 }
 
-const validationSchema = Yup.object<ProductData>().shape({
-    code: Yup.string().required("El código es obligatorio"),
-    name: Yup.string().required("El nombre es es obligatorio"),
+const validationSchema = Yup.object<PurchaseData>().shape({
+    purchaseDate: Yup.string().required("El código es obligatorio"),
+    supplier: Yup.string().required("El nombre es es obligatorio"),
     price: Yup.number().required("El precio es obligatorio"),
     quantity: Yup.number().required("La cantidad es obligatorio"),
-    status: Yup.string().required("La estado es obligatorio"),
-    minStock: Yup.number().required("El mínimo de Stock es obligatorio"),
-    maxStock: Yup.number().required("El máximo de Stock  es obligatorio"),
+    total: Yup.string().required("La estado es obligatorio"),
+    user: Yup.number().required("El mínimo de Stock es obligatorio"),
+    payment: Yup.number().required("El máximo de Stock  es obligatorio"),
 });
 
 
-function FormProduct({ onSubmitSuccess, onCancel, selectedProduct }:
+function FormPurchase({ onSubmitSuccess, onCancel, selectedPurchase }:
     {
         onSubmitSuccess: () => void,
         onCancel: () => void,
-        selectedProduct: ProductData | null
+        selectedPurchase: PurchaseData | null
     }) {
     const { classes } = useStyles();
     const [loading, setLoading] = useState(false);
-    const idRef = useRef<string>(selectedProduct?.id || "");
-    const [catalogTax, setCatalogTax] = useState<Catalog[]>([])
-    const [catalogPromotions, setCatalogPromotions] = useState<Catalog[]>([])
-    const [catalogCategories, setCatalogCategories] = useState<Catalog[]>([])
+    const idRef = useRef<string>(selectedPurchase?.id || "");
+    const [catalogSuppliers, setCatalogSuppliers] = useState<Catalog[]>([])
 
 
     const form = useForm({
-        initialValues: idRef.current && selectedProduct !== null ?
-            { ...selectedProduct } :
+        initialValues: idRef.current && selectedPurchase !== null ?
+            { ...selectedPurchase } :
             initialValues,
         validate: yupResolver(validationSchema)
     })
 
 
 
-    const handleSubmit = async (formProduct: ProductData) => {
-        setLoading(true)
-        console.log(formProduct);
+    const handleSubmit = async (formPurchase: PurchaseData) => {
+        /* setLoading(true)
+        console.log(formPurchase);
 
-        formProduct.status = formProduct.status as boolean
+        formPurchase.status = formPurchase.status as boolean
         if (idRef.current !== "") {
-            const res = await editProductService(idRef.current, formProduct)
+            const res = await editPurchaseService(idRef.current, formPurchase)
             if (res.error || res.data == null) return setLoading(false)
-            SnackbarManager.success("Producto editado exitosamente")
+            SnackbarManager.success("Purchaseo editado exitosamente")
         } else {
-            const res = await saveProductService(formProduct)
+            const res = await savePurchaseService(formPurchase)
             if (res.error || res.data == null) return setLoading(false)
-            SnackbarManager.success("Producto creado exitosamente")
+            SnackbarManager.success("Purchaseo creado exitosamente")
         }
         setLoading(false)
         onSubmitSuccess()
-        onCancel();
+        onCancel(); */
     }
 
-    const getCatalogTax = async () => {
-        const catalog = await getCatalogTaxService();
+    const getCatalogSuppliers = async () => {
+        const catalog = await getCatalogSuppliersService();
         if (catalog === null) return;
-        setCatalogTax(catalog);
-    }
-
-    const getCatalogPromotions = async () => {
-        const catalog = await getCatalogPromotionsService();
-        if (catalog === null) return;
-        setCatalogPromotions(catalog);
-    }
-
-    const getCatalogCategories = async () => {
-        const catalog = await getCatalogCategoryService();
-        if (catalog === null) return;
-        setCatalogCategories(catalog);
+        setCatalogSuppliers(catalog);
     }
 
     useEffect(() => {
-        getCatalogTax();
-        getCatalogPromotions();
-        getCatalogCategories();
-
+        getCatalogSuppliers();
     }, [])
 
 
     return (
         <Flex direction="column" p="lg">
 
-            <Text className={classes.title} align="center" mb="lg">{idRef.current ? "Editar Producto" : "Crear Producto"}</Text>
+            <Text className={classes.title} align="center" mb="lg">Crear Compra</Text>
             <form onSubmit={form.onSubmit(handleSubmit)} >
-                <Flex direction="column" gap="md">
-                    <TextInput
-                        withAsterisk
-                        disabled={(idRef.current != "") ? true : false}
-                        label="Nombre del Producto"
-                        {...form.getInputProps("name")}
-                    />
-                    <TextInput
-                        disabled={(idRef.current != "") ? true : false}
-                        width="1"
-                        withAsterisk
-                        label="Código"
-                        {...form.getInputProps("code")}
-                    />
-
-                    <Select
-                        clearable
-                        withAsterisk
-                        disabled={(idRef.current != "") ? true : false}
-                        label="Categoría"
-                        placeholder="Seleccione"
-                        data={catalogCategories!}
-                        {...form.getInputProps("category")}
-                    />
-                    <Flex
-                        w="100%"
-                        justify="space-between"
-                        align="center"
-                        gap="sm"
-                        direction="row"
-                        wrap="wrap"
-                    >
-
-                        <NumberInput
-                            withAsterisk
-                            className={classes.input}
-                            label="Cantidad"
-                            max={5000}
-                            min={0}
-                            {...form.getInputProps("quantity")}
-                        />
-                        <NumberInput
-                            max={100000}
-                            min={0}
-                            precision={4}
-                            className={classes.input}
-                            decimalSeparator=","
-                            withAsterisk
-                            label="Precio Unitario"
-                            {...form.getInputProps("price")}
-                        />
-                    </Flex>
-
-
-
-                    <Flex
-                        w="100%"
-                        justify="space-between"
-                        align="center"
-                        gap="sm"
-                        direction="row"
-                        wrap="wrap"
-                    >
-                        <NumberInput
-                            withAsterisk
-                            description="Desde 0 a 500"
-                            className={classes.input}
-                            max={500}
-                            min={0}
-                            label="Mínimo en Stock"
-                            {...form.getInputProps("minStock")}
-                        />
-                        <NumberInput
-                            description="Desde 5 a 5000"
-                            max={5000}
-                            className={classes.input}
-
-                            min={5}
-                            withAsterisk
-                            label="Máximo en Stock"
-                            {...form.getInputProps("maxStock")}
-                        />
-                    </Flex>
-
-                    <Select
-                        clearable
-                        label="Promoción"
-                        placeholder="Seleccione"
-                        data={catalogPromotions}
-                        {...form.getInputProps("promotion")}
-
-                    />
-                    <Select
-                        clearable
-                        label="Impuesto"
-                        placeholder="Seleccione"
-                        data={catalogTax}
-                        {...form.getInputProps("tax")}
-                    />
-
+                <Flex direction="row" gap="md">
                     <Select
                         withAsterisk
-                        label="Estado"
+                        label="Seleccione el Proveedor"
                         placeholder="Seleccione"
-                        data={itemState}
+                        data={catalogSuppliers}
                         {...form.getInputProps("status")}
                     />
-
                 </Flex>
+                <Space h="md" />
+                <Flex justify="space-between" direction="row">
+                    <Button color="orange" leftIcon={<IconCirclePlus />} onClick={onCancel}>Añadir</Button>
+                    <Flex direction="column" justify="center" align="center">
+                        <Text className={classes.labelTotal} align="center" >Total</Text>
+                        <Text className={classes.total} align="center" >40.50</Text>
+                    </Flex>
+                </Flex>
+                <ProductTable />
                 <Flex justify="space-between" mt="lg">
                     <Button variant="white" onClick={onCancel}>Cancelar</Button>
                     <Button loading={loading} type="submit">Aceptar</Button>
@@ -248,4 +152,4 @@ function FormProduct({ onSubmitSuccess, onCancel, selectedProduct }:
     )
 }
 
-export default FormProduct
+export default FormPurchase

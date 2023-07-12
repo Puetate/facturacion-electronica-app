@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { DataTableColumn } from "mantine-datatable"
 import { ActionIcon, Button, Flex, Group, Tooltip, Text } from "@mantine/core";
 import { IconCirclePlus, IconEdit } from "@tabler/icons-react";
-import {  DataTable } from "../../../components";
+import { DataTable } from "../../../components";
 import { useDisclosure } from "@mantine/hooks";
 import MantineDrawer from "../../../components/Drawer";
 import InputsFilters from "../../../components/InputsFilters";
@@ -19,10 +19,10 @@ function PaymentMethodsTable() {
 
 
     const onClickEditButton = async (paymentMethod: PaymentMethods) => {
-        paymentMethod.status = paymentMethod.status.toString();     
+        paymentMethod.status = paymentMethod.status.toString();
 
         setSelectedPaymentMethods({ ...paymentMethod });
-        
+
         open()
     }
     const onClickAddButton = () => {
@@ -42,10 +42,10 @@ function PaymentMethodsTable() {
     const generalFilter = (value: string) => {
         if (value == "") {
             return setListPaymentMethods(listPaymentMethodsRef.current);
-        }        
+        }
         const filteredList = listPaymentMethodsRef.current.filter(
-            
-            ({ payment, status}: PaymentMethods) => {
+
+            ({ payment, status }: PaymentMethods) => {
                 status = (status) ? State.ACTIVE : State.INACTIVE;
                 const filter = `${payment} ${status}`;
                 return filter.toLowerCase().includes(value.trim().toLowerCase());
@@ -98,7 +98,7 @@ function PaymentMethodsTable() {
                 </Button>
             </Flex>
             <DataTable columns={PaymentMethodsColumns} records={listPaymentMethods} />
-            <MantineDrawer opened={opened} close={close} >
+            <MantineDrawer opened={opened} close={close} isBig={false} >
                 <FormPaymentMethod onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedPaymentMethods={selectedPaymentMethods} />
             </MantineDrawer>
         </Flex>

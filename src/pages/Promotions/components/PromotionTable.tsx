@@ -83,7 +83,7 @@ function PromotionTable() {
             return setListPromotions(listPromotionsRef.current);
         }
         const filteredList = listPromotionsRef.current.filter(
-            ({ description,value, status }: PromotionData) => {
+            ({ description, value, status }: PromotionData) => {
                 const filter = `${description} ${value} ${status}`;
                 return filter.toLowerCase().includes(text.trim().toLowerCase());
 
@@ -112,7 +112,7 @@ function PromotionTable() {
             render: (promotion) => (
                 <Group spacing={10} position="center" noWrap>
                     <>
-                       
+
                         <Tooltip label="Editar">
                             <ActionIcon
                                 color="violet"
@@ -142,7 +142,7 @@ function PromotionTable() {
             </Flex>
             <DataTable columns={promotionsColumns} records={listPromotions} />
             <ConfirmDialog opened={openedDialog} onClose={closeDialog} message={CONFIRM_MESSAGE} onConfirm={handleDeleteRoutineAlert} />
-            <MantineDrawer opened={opened} close={close} >
+            <MantineDrawer opened={opened} close={close} isBig={false} >
                 <FormPromotion onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedPromotion={selectedPromotion} />
             </MantineDrawer>
         </Flex>
