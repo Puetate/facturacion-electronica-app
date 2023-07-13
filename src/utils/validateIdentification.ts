@@ -31,7 +31,6 @@ export function validateIdentification(identification: string): boolean {
     if (rucRegex.test(identification)) {
         const cedula = identification.substring(0, 10);
         const cod = identification.substring(10);
-        console.log(cedula);
         
         if (validateIdentification(cedula) && cod == "001") return true;
         return false;

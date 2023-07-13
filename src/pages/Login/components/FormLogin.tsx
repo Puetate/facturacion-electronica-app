@@ -12,12 +12,13 @@ import { useForm, yupResolver } from "@mantine/form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { User, UserRoutes } from "../../../models";
+import { UserRoutes } from "../../../models";
 import { useSessionStore } from "../../../store";
 import loginImg from "./../../../assets/image_1.png";
 import { useDisclosure } from "@mantine/hooks";
 import { FormRecoveryPassword } from ".";
 import loginService from "../services/loginService";
+import { getUser } from "../../../utils";
 
 const useStyles = createStyles((theme) => ({
 	formContainer: {
@@ -98,19 +99,10 @@ export default function FormLogin() {
 		setLoading(true);
 		const res = await loginService(credentials);
 		if (res.error || res == null) return setLoading(false);
-		const auth = res.data!.data;
-		const user: User = {
-			id: auth.user.id,
-			company: auth.user.company,
-			identification: auth.user.identification,
-			email: auth.user.email,
-			fullName: auth.user.fullName,
-			status: auth.user.status,
-			rol: auth.user.authorities[0].authority,
-			telephone: auth.user.telephone,
-		}
+		const auth = res.data!;
+		const user = getUser(auth);
 		setUser(user);
-		setToken(auth.token);
+		setToken(auth.data.token);
 		await timeout(500);
 		navigate(UserRoutes.sales);
 		setLoading(false);

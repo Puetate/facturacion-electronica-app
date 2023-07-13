@@ -14,10 +14,10 @@ import { useForm, yupResolver } from "@mantine/form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { superRoutes } from "../../../models";
-import { useSessionStore } from "../../../store";
+import { Company, CompanyType, EnvironmentType, PublicRoutes } from "../../../models";
 import loginImg from "./../../../assets/image_1.png";
-import { loginService } from "../../Login";
+import { registerService } from "../services";
+import { SnackbarManager } from "../../../utils";
 
 const useStyles = createStyles((theme) => ({
 	formContainer: {
@@ -89,48 +89,59 @@ const useStyles = createStyles((theme) => ({
 	},
 }));
 
-export interface Credentials {
-	email: string;
-	password: string;
-}
 
-const initialValues: Credentials = {
+const initialValues: Company = {
+	id_company: "",
+	name: "",
 	email: "",
-	password: "",
+	ruc: "",
+	phone: "",
+	address: "",
+	accounting: true,
+	type: CompanyType.EMPTY,
+	environment: EnvironmentType.PRUEBA,
+	logo: "",
 };
 
-const validationSchema = Yup.object<Credentials>().shape({
-	email: Yup.string().required().email("Correo invalido"),
-	password: Yup.string()
-		.required()
-		.min(6, "La contraseña debe ser como mínimo de 6 caracteres"),
+const validationSchema = Yup.object<Company>().shape({
+	name: Yup.string().required("El nombre es obligatorio"),
+	email: Yup.string().required("El email es obligatorio").email("Correo invalido"),
+	ruc: Yup.string().required("El ruc es obligatorio"),
+	phone: Yup.string().required("El teléfono es obligatorio"),
+	address: Yup.string().required("La dirección es obligatorio"),
+	type: Yup.string().required("El tipo de empresa es obligatorio"),
+	environment: Yup.string().required("El tipo de ambiente es obligatorio"),
+	accounting: Yup.boolean(),
 });
 
 export default function FormRegister() {
-	const { setUser: setAdmin, setToken } = useSessionStore();
 	const { classes } = useStyles();
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
-	const dataTypesCompanies = ['Tecnología', 'Comida', 'Market', 'Bisutería', 'Otro'];
-	const dataTypesEnvironment = ['Prueba', 'Producción'];
+	const dataTypesCompanies = [
+		{ value: CompanyType.NATURAL, label: CompanyType.NATURAL },
+		{ value: CompanyType.JURIDICA, label: CompanyType.JURIDICA },
+	];
+	const dataTypesEnvironment = [
+		{ value: EnvironmentType.PRODUCTION, label: EnvironmentType.PRODUCTION },
+		{ value: EnvironmentType.PRUEBA, label: EnvironmentType.PRUEBA }
+	];
 
 	const form = useForm({
 		initialValues,
 		validate: yupResolver(validationSchema),
 	});
 
-	const handleSubmit = async (credentials: Credentials) => {
+	const handleSubmit = async (company: Company) => {
 		setLoading(true);
-		const res = await loginService(credentials);
+		const res = await registerService(company);
 		if (res.error || res == null) return setLoading(false);
-		setAdmin(res.admin);
-		setToken(res.token);
-		navigate(superRoutes.companies);
+		SnackbarManager.success(res.data?.message!);
+		SnackbarManager.success("Se ha enviado una contraseña temporal a su email para poder iniciar sesión");
+		navigate(PublicRoutes.login);
 		setLoading(false);
 	};
-
-
 	return (
 		<>
 
@@ -151,39 +162,47 @@ export default function FormRegister() {
 					<Box className={classes.formContain}>
 						<Box className={classes.columnsForm}>
 							<TextInput
+								withAsterisk
 								label="RUC"
 								placeholder="XXXXXXXXXX001"
-								{...form.getInputProps("email")}
+								{...form.getInputProps("ruc")}
 							/>
 							<TextInput
+								withAsterisk
 								label="Nombre de la Empresa"
-								{...form.getInputProps("email")}
+								{...form.getInputProps("name")}
 							/>
 
 							<Select
+								withAsterisk
 								label="Tipo de Empresa"
 								placeholder="Seleccione"
 								data={dataTypesCompanies}
 								transitionProps={{ transition: 'pop-top-left', duration: 100, timingFunction: 'ease' }}
 								withinPortal
+								{...form.getInputProps("type")}
+
 							/>
 							<TextInput
+								withAsterisk
 								label="Correo Electrónico"
 								placeholder="correo@correo.com"
 								{...form.getInputProps("email")}
 							/>
 							<TextInput
+								withAsterisk
 								label="Teléfono"
 								placeholder="09XXXXXXXX"
-								{...form.getInputProps("email")}
+								{...form.getInputProps("phone")}
 							/>
 						</Box>
 						<Space h="sm" />
 
 						<Box className={classes.columnsForm}>
 							<TextInput
+								withAsterisk
 								label="Dirección"
-								{...form.getInputProps("email")}
+								{...form.getInputProps("address")}
 							/>
 							<Select
 								withAsterisk
@@ -192,10 +211,12 @@ export default function FormRegister() {
 								data={dataTypesEnvironment}
 								transitionProps={{ transition: 'pop-top-left', duration: 100, timingFunction: 'ease' }}
 								withinPortal
+								{...form.getInputProps("environment")}
+
 							/>
 							<FileInput label="Upload files" placeholder="Upload files" accept="image/png,image/jpeg,vector/svg" />
 							<Space h="" />
-							<Switch labelPosition="left" label="Obligado a llevar contabilidad" onLabel="SI" offLabel="NO" />
+							<Switch  labelPosition="left" label="Obligado a llevar contabilidad" onLabel="SI" offLabel="NO" {...form.getInputProps("accounting",)} />
 						</Box>
 					</Box>
 					<Button

@@ -7,7 +7,6 @@ const URL = "/protected/promotion"
 export async function getCatalogPromotionsService() {
     const res = await API.get<ResponseRequest<Promotion[]>>({ url: URL });
     if (res.error || res.data === null) return null
-    console.log(res.data.data);
     
     const catalog: Catalog[] = res.data.data.filter(item => (item.status)).map(item => (
         {

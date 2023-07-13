@@ -82,7 +82,6 @@ function FormProduct({ onSubmitSuccess, onCancel, selectedProduct }:
 
     const handleSubmit = async (formProduct: ProductData) => {
         setLoading(true)
-        console.log(formProduct);
 
         formProduct.status = formProduct.status as boolean
         if (idRef.current !== "") {

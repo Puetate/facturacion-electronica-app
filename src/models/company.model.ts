@@ -1,21 +1,22 @@
 export enum CompanyType {
-    EMPTY = "EMPTY",
-    TECHNOLOGY = "TECHNOLOGY",
+    EMPTY = "",
+    JURIDICA = "JURIDICA",
     NATURAL = "NATURAL"
 }
+
 export enum EnvironmentType {
     PRODUCTION = "PRODUCCION",
-    TEST = "PRUEBA"
+    PRUEBA = "PRUEBA"
 }
 export interface Company {
-    id_company: string,
-    city: string,
-    ruc: string,
-    type: CompanyType,
+    id_company?: string,
     name: string,
     email: string,
+    ruc: string,
     phone: string,
-    logo: string,
-    environment: EnvironmentType,
+    address: string,
     accounting: boolean
+    type: CompanyType,
+    environment: EnvironmentType,
+    logo: string,
 }

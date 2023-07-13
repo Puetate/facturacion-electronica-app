@@ -40,7 +40,6 @@ function ProductTable() {
 
 
     const onClickEditButton = async (product: ProductData) => {
-        console.log(product);
 
         const { id } = product;
         const productToEdit = await getProduct(id);
