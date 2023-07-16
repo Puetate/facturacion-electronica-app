@@ -9,6 +9,7 @@ import { useForm, yupResolver } from "@mantine/form";
 import {  useState } from "react";
 import { SnackbarManager } from "../../../utils";
 import * as Yup from "yup";
+import { recoveryPasswordService } from "../services/recoveryPassword";
 
 const useStyles = createStyles((theme) => ({
 	formContainer: {
@@ -75,6 +76,8 @@ export default function FormRecoveryPassword({
 
 	const handleSubmit = async (email:Email) => {
 		setLoading(true);
+		const res = await recoveryPasswordService(email.email)
+		if (res.error || res == null) return setLoading(false);
 		SnackbarManager.success("Se ha enviado una contraseña temporal a su Email");
 		setLoading(true);
 		onSubmitSuccess();
