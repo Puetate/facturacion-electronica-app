@@ -10,7 +10,7 @@ import InputsFilters from "../../../components/InputsFilters";
 import { Title } from "../../../layouts";
 import { State, Supplier } from "../../../models";
 import { FormSupplier } from ".";
-import { deleteSupplierService, getSupplierService } from "../services";
+import { deleteSupplierService, getSuppliersService } from "../services";
 
 
 //const TITLE = "Categorías";
@@ -46,7 +46,7 @@ function SupplierTable() {
     }
 
     const getSuppliers = async () => {
-        const res = await getSupplierService();
+        const res = await getSuppliersService();
         if (res.error || res.data === null) return
         const suppliersData = res.data.data;
         setListSuppliers(suppliersData);
