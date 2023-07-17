@@ -1,6 +1,6 @@
 import { Drawer, Container } from '@mantine/core';
 
-export default function MantineDrawer({ children, opened, close }: { children: JSX.Element | JSX.Element[] , opened:boolean,  close:()=>void, }) {
+export default function MantineDrawer({ children, opened, close, isBig }: { children: JSX.Element | JSX.Element[] , opened:boolean,  close:()=>void, isBig:boolean }) {
   return (
     <>
       <Drawer
@@ -8,7 +8,7 @@ export default function MantineDrawer({ children, opened, close }: { children: J
         opened={opened}
         onClose={close}
         position='right'
-        size="35%" 
+        size={(isBig)?"70%":"35%"} 
         overlayProps={{ opacity: 0.5, blur: 4 }}
       >
         <Container> {children} </Container>

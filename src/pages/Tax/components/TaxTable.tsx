@@ -90,7 +90,7 @@ function TaxTable() {
             return setListTax(listTaxRef.current);
         }
         const filteredList = listTaxRef.current.filter(
-            ({ tax, percentage, status}: TaxData) => {
+            ({ tax, percentage, status }: TaxData) => {
                 const filter = `${tax} ${percentage} ${status}`;
                 return filter.toLowerCase().includes(value.trim().toLowerCase());
             },
@@ -118,7 +118,7 @@ function TaxTable() {
             render: (tax) => (
                 <Group spacing={10} position="center" noWrap>
                     <>
-                        
+
                         <Tooltip label="Editar">
                             <ActionIcon
                                 color="violet"
@@ -148,8 +148,8 @@ function TaxTable() {
             </Flex>
             <DataTable columns={taxColumns} records={listTax} />
             <ConfirmDialog opened={openedDialog} onClose={closeDialog} message={CONFIRM_MESSAGE} onConfirm={handleDeleteRoutineAlert} />
-            <MantineDrawer opened={opened} close={close} >
-            <FormTax onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedTax={selectedTax} />
+            <MantineDrawer opened={opened} close={close} isBig={false} >
+                <FormTax onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedTax={selectedTax} />
             </MantineDrawer>
         </Flex>
     )

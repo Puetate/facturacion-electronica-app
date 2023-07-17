@@ -1,5 +1,6 @@
 export * from './bill.model';
 export * from './billDetail.model';
+export * from './catalog.model';
 export * from './category.model';
 export * from './client.model';
 export * from './company.model';
@@ -7,6 +8,7 @@ export * from './creditNote.model';
 export * from './creditNoteDetail.model';
 export * from './customerCompany.model';
 export * from './customerPerson.model';
+export * from './index';
 export * from './paymentMethods.model';
 export * from './product.model';
 export * from './promotion.model';

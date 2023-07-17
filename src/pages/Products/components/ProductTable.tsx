@@ -160,7 +160,7 @@ function ProductTable() {
             </Flex>
             <DataTable columns={ProductsColumns} records={listProducts} />
             <ConfirmDialog opened={openedDialog} onClose={closeDialog} message={CONFIRM_MESSAGE} onConfirm={handleDeleteRoutineAlert} />
-            <MantineDrawer opened={opened} close={close} >
+            <MantineDrawer opened={opened} close={close} isBig={false} >
                 <FormProduct onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedProduct={selectedProduct} />
             </MantineDrawer>
         </Flex>

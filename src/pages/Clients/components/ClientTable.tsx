@@ -77,7 +77,7 @@ function ClientTable() {
                         <ActionIcon
                             color="violet"
                             variant="light"
-                            onClick={() => onClickEditButton({...Client})}
+                            onClick={() => onClickEditButton({ ...Client })}
                         >
                             <IconEdit />
                         </ActionIcon>
@@ -100,7 +100,7 @@ function ClientTable() {
                 </Button>
             </Flex>
             <DataTable columns={ClientsColumns} records={listClients} />
-            <MantineDrawer opened={opened} close={close} >
+            <MantineDrawer opened={opened} close={close} isBig={false} >
                 <FormClient onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedClient={selectedClient} />
             </MantineDrawer>
         </Flex>

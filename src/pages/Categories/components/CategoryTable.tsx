@@ -2,9 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { DataTableColumn } from "mantine-datatable"
 import { ActionIcon, Button, Flex, Group, Tooltip, Text } from "@mantine/core";
 import { IconCirclePlus, IconEdit } from "@tabler/icons-react";
-import {  DataTable } from "../../../components";
+import { DataTable } from "../../../components";
 import { useDisclosure } from "@mantine/hooks";
-import {  getCategoryProperties } from "../../../utils";
+import { getCategoryProperties } from "../../../utils";
 import MantineDrawer from "../../../components/Drawer";
 import { FormCategory } from ".";
 import { getCategoriesService, getCategoryService } from "../services";
@@ -129,7 +129,7 @@ function CategoryTable() {
                 </Button>
             </Flex>
             <DataTable columns={categoriesColumns} records={listCategories} />
-            <MantineDrawer opened={opened} close={close} >
+            <MantineDrawer opened={opened} close={close} isBig={false} >
                 <FormCategory onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedCategory={selectedCategory} />
             </MantineDrawer>
         </Flex>
