@@ -9,8 +9,8 @@ import { useForm, yupResolver } from "@mantine/form";
 import { useState } from "react";
 import * as Yup from "yup";
 import { SnackbarManager } from "../../utils";
-import changePasswordAdminService from "../services/changePasswordService";
 import { useSessionStore } from "../../store";
+import { changePasswordAdminService } from "../services/changePasswordService";
 
 const useStyles = createStyles((theme) => ({
 	formContainer: {
@@ -89,7 +89,7 @@ export default function FormChangePassword({
 
 	const handleSubmit = async (changePasswordAdmin: ChangePasswordAdmin) => {
 		setLoading(true);
-		const res = await changePasswordAdminService(changePasswordAdmin, admin)
+		const res = await changePasswordAdminService(admin.id,changePasswordAdmin.newPassword)
 		if (res.error || res == null) return setLoading(false);
 		SnackbarManager.success("Se ha cambiado su contraseña exitosamente");
 		setLoading(false);
