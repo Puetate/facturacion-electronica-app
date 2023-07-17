@@ -9,6 +9,7 @@ import InputsFilters from "../../../components/InputsFilters";
 import { Title } from "../../../layouts";
 import { State, Client } from "../../../models";
 import { FormClient } from ".";
+import { getClientsService } from "../services";
 
 function ClientTable() {
     const [listClients, setListClients] = useState<Client[]>([]);
@@ -18,7 +19,7 @@ function ClientTable() {
 
 
     const onClickEditButton = async (client: Client) => {
-        client.status = client.status.toString();
+        client.active = client.active.toString();
         setSelectedClient({ ...client });
         open()
     }
@@ -28,11 +29,11 @@ function ClientTable() {
     }
 
     const getClients = async () => {
-        /* const res = await getClientsService();
+        const res = await getClientsService();
         if (res.error || res.data === null) return
         const ClientsData = res.data.data;
         setListClients(ClientsData);
-        listClientsRef.current = ClientsData; */
+        listClientsRef.current = ClientsData;
     };
 
     const generalFilter = (value: string) => {
@@ -40,7 +41,7 @@ function ClientTable() {
             return setListClients(listClientsRef.current);
         }
         const filteredList = listClientsRef.current.filter(
-            ({ identification, fullName, email, address, telephone, status }: Client) => {
+            ({ identification, fullName, email, address, telephone, active: status }: Client) => {
                 status = (status) ? State.ACTIVE : State.INACTIVE;
                 const filter = `${identification} ${name} ${email} ${address} ${telephone} ${status} ${fullName}`;
                 return filter.toLowerCase().includes(value.trim().toLowerCase());
@@ -67,7 +68,7 @@ function ClientTable() {
         { accessor: "email", title: "Email", textAlignment: 'center' },
         { accessor: "address", title: "Dirección", textAlignment: 'center' },
         { accessor: "telephone", title: "Teléfono", textAlignment: 'center' },
-        { accessor: "status", title: "Estado", textAlignment: 'center', render: (Client) => <Text>{(Client.status) ? "Activo" : "Inactivo"}</Text> },
+        { accessor: "status", title: "Estado", textAlignment: 'center', render: (Client) => <Text>{(Client.active) ? "Activo" : "Inactivo"}</Text> },
         {
             accessor: "actions",
             title: "Acciones",

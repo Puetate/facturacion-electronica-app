@@ -1,15 +1,22 @@
-export enum TypeClient{
-    NATURAL="NATURAL",
-    JURIDICO="JURÍDICO"
+export enum TypeClient {
+    NATURAL = "NATURAL",
+    JURIDICO = "JURIDICO"
 }
 
-export interface Client{
-    id:string,
-    identification:string,
-    fullName:string,
-    telephone:string,
-    email:string,
+export enum IdentificationType {
+    CEDULA = "CEDULA",
+    PASAPORTE = "PASAPORTE",
+    RUC = "RUC"
+}
+
+export interface Client {
+    id: string,
+    identification: string,
+    fullName: string,
+    telephone: string,
+    email: string,
     address: string,
-    type:TypeClient,
-    status:string | boolean
+    active: string | boolean
+    type: TypeClient,
+    identificationType:IdentificationType
 }
