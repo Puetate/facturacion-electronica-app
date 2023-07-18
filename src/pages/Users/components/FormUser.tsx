@@ -1,4 +1,4 @@
-import { Button, Flex, Select, Text, TextInput, createStyles } from "@mantine/core";
+import { Button, Flex, PasswordInput, Select, Text, TextInput, createStyles } from "@mantine/core";
 import { State, UserRoles } from "../../../models";
 import * as Yup from "yup";
 import { UserData } from "./UsersTable";
@@ -7,6 +7,7 @@ import { useForm, yupResolver } from "@mantine/form";
 import { SnackbarManager } from "../../../utils";
 import { editUserService } from "../services/editUser.service";
 import { saveUserService } from "../services/saveUser.service";
+import { useSessionStore } from "../../../store";
 
 const useStyles = createStyles((theme) => ({
     title: {
@@ -29,7 +30,7 @@ export const itemState = [
 
 export const itemRoles = [
     { value: "ADMINISTRADOR", label: UserRoles.ADMIN },
-    { value: "USUARIO", label: UserRoles.USER },
+    { value: "VENDEDOR", label: UserRoles.USER },
 ];
 
 
@@ -42,6 +43,7 @@ const initialValues: UserData = {
 	status: "",
 	role: "",
 	telephone: "",
+    password: "",
 }
 
 const validationSchema = Yup.object<UserData>().shape({
@@ -62,7 +64,7 @@ function FormUser({ onSubmitSuccess, onCancel, selectedUser }:
     const { classes } = useStyles();
     const [loading, setLoading] = useState(false);
     const idRef = useRef<string>(selectedUser?.id || "");
-
+    const { user: admin } = useSessionStore();
 
     const form = useForm({
         initialValues: idRef.current && selectedUser !== null ?
@@ -77,11 +79,13 @@ function FormUser({ onSubmitSuccess, onCancel, selectedUser }:
 
         formUser.status = formUser.status as boolean
         if (idRef.current !== "") {
+            console.log(idRef.current);
+            console.log(formUser);
             const res = await editUserService(idRef.current, formUser)
             if (res.error || res.data == null) return setLoading(false)
             SnackbarManager.success("Usuario editado exitosamente")
         } else {
-            const res = await saveUserService(formUser)
+            const res = await saveUserService(admin.company.id,formUser)
             if (res.error || res.data == null) return setLoading(false)
             SnackbarManager.success("Usuario creado exitosamente")
         }
@@ -95,7 +99,7 @@ function FormUser({ onSubmitSuccess, onCancel, selectedUser }:
         <Flex direction="column" p="lg">
 
             <Text className={classes.title} align="center" mb="lg">{idRef.current ? "Editar Producto" : "Crear Producto"}</Text>
-            <form  >
+            <form onSubmit={form.onSubmit(handleSubmit)} >
                 <Flex direction="column" gap="md">
                     <TextInput
                         withAsterisk
@@ -105,12 +109,10 @@ function FormUser({ onSubmitSuccess, onCancel, selectedUser }:
                     />
                     <TextInput
                         withAsterisk
-                        disabled={(idRef.current != "") ? true : false}
                         label="Nombres Completos"
                         {...form.getInputProps("fullName")}
                     />
                     <TextInput
-                        disabled={(idRef.current != "") ? true : false}
                         width="1"
                         withAsterisk
                         label="Correo"
@@ -122,6 +124,13 @@ function FormUser({ onSubmitSuccess, onCancel, selectedUser }:
                         label="Teléfono"
                         {...form.getInputProps("telephone")}
                     />
+
+                    <PasswordInput
+                        withAsterisk
+                        label="Contraseña"
+                        disabled={(idRef.current != "") ? true : false}
+                        {...form.getInputProps("password")}
+                        />
 
                     <Select
                         withAsterisk

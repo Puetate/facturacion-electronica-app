@@ -8,5 +8,5 @@ export const enum EndPoints{
     PAYMENT=`${EndPoints.PROTECTED}/payment`,
     CLIENT=`${EndPoints.PROTECTED}/clients`,
     USERS=`${EndPoints.PROTECTED}/users/update/password`,
-    USER=`${EndPoints.PROTECTED}/users/company`,
+    USER=`${EndPoints.PROTECTED}/users`,
 }
