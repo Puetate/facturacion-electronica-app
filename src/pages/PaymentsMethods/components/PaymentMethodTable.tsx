@@ -32,8 +32,10 @@ function PaymentMethodsTable() {
 
     const getPaymentMethods = async () => {
         const res = await getPaymentMethodsService();
+        
         if (res.error || res.data === null) return
         const PaymentMethodsData = res.data.data;
+        console.log(PaymentMethodsData);
         setListPaymentMethods(PaymentMethodsData);
         listPaymentMethodsRef.current = PaymentMethodsData;
 

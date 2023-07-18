@@ -14,21 +14,21 @@ const initialUser: User = {
 	id: "",
 	company: {
 		id_company: "",
-		city: "",
+		address: "",
 		ruc: "",
 		type: CompanyType.EMPTY,
 		name: "",
 		email: "",
 		phone: "",
 		logo: "",
-		environment: EnvironmentType.TEST,
+		environment: EnvironmentType.PRODUCTION,
 		accounting: false
 	},
 	email: "",
 	fullName: "",
 	identification: "",
 	telephone: "",
-	rol: UserRoles.USER,
+	role: UserRoles.ADMIN,
 	status: false,
 
 };

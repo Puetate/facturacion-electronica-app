@@ -7,4 +7,5 @@ export interface BillDetail {
     price: number;
     subtotal: number;
     product: Product;
+    subtotalExcludingIVA:number
 }
