@@ -1,6 +1,6 @@
 import { Button, Flex, Select, Text, TextInput, createStyles } from "@mantine/core"
 import { useRef, useState } from "react";
-import { Client, TypeClient, IdentificationType, } from "../../../models";
+import { Client, IdentificationType, } from "../../../models";
 import { SnackbarManager, validateIdentification } from "../../../utils";
 import * as Yup from "yup";
 import { useForm, yupResolver } from "@mantine/form";
@@ -20,12 +20,6 @@ const useStyles = createStyles((theme) => ({
 
 }));
 
-
-const typeClient = [
-    { value: "FINAl", label: TypeClient.NATURAL },
-    { value: "DATOS", label: TypeClient.JURIDICO },
-];
-
 const typeIdentification = [
     { value: IdentificationType.CEDULA, label: IdentificationType.CEDULA },
     { value: IdentificationType.RUC, label: IdentificationType.RUC },
@@ -34,26 +28,23 @@ const typeIdentification = [
 
 const initialValues: Client = {
     id: "",
-    fullName: "",
+    fullname: "",
     address: "",
     email: "",
     identification: "",
     telephone: "",
-    type: TypeClient.NATURAL,
-    active: "true",
+    status: "true",
     identificationType: IdentificationType.CEDULA
 
 }
 
 const validationSchema = Yup.object<Client>().shape({
     identification: Yup.string().required("La identificación es obligatoria").min(10).max(13).test("validate-identification", "Ingrese una identificación correcta", val => validateIdentification(val)),
-    fullName: Yup.string().required("El nombre es obligatorio"),
+    fullname: Yup.string().required("El nombre es obligatorio"),
     address: Yup.string().required("La dirección es obligatorio"),
     email: Yup.string().required("El email es obligatorio"),
     telephone: Yup.string().required("El teléfono es obligatorio").min(10).max(10),
-    type: Yup.string().required("El tipo de cliente es obligatorio"),
-    active: Yup.string().required("El estado es obligatorio"),
-
+    status: Yup.string().required("El estado es obligatorio"),
 });
 
 
@@ -78,18 +69,17 @@ function FormClient({ onSubmitSuccess, onCancel, selectedClient }:
 
 
     const handleSubmit = async (formClient: Client) => {
-console.log("dfsf");
 
         setLoading(true)
-        formClient.active = formClient.active as boolean
+        formClient.status = formClient.status as boolean
         if (idRef.current !== "") {
             const res = await editClientService(idRef.current, formClient)
             if (res.error || res.data == null) return setLoading(false)
-            SnackbarManager.success("Categoría editada exitosamente")
+            SnackbarManager.success("Cliente editado exitosamente")
         } else {
             const res = await saveClientService(formClient)
             if (res.error || res.data == null) return setLoading(false)
-            SnackbarManager.success("Categoría creada exitosamente")
+            SnackbarManager.success("Cliente creado exitosamente")
         }
         setLoading(false)
         onSubmitSuccess()
@@ -122,7 +112,7 @@ console.log("dfsf");
                     <TextInput
                         withAsterisk
                         label="Nombre Completo"
-                        {...form.getInputProps("fullName")}
+                        {...form.getInputProps("fullname")}
                     />
                     <TextInput
                         withAsterisk
@@ -142,18 +132,10 @@ console.log("dfsf");
 
                     <Select
                         withAsterisk
-                        label="Tipo de cliente"
-                        placeholder="Seleccione"
-                        data={typeClient}
-                        {...form.getInputProps("type")}
-                    />
-
-                    <Select
-                        withAsterisk
                         label="Estado"
                         placeholder="Seleccione"
                         data={itemState}
-                        {...form.getInputProps("active")}
+                        {...form.getInputProps("status")}
                     />
 
                 </Flex>

@@ -19,7 +19,7 @@ function ClientTable() {
 
 
     const onClickEditButton = async (client: Client) => {
-        client.active = client.active.toString();
+        client.status = client.status.toString();
         setSelectedClient({ ...client });
         open()
     }
@@ -31,9 +31,9 @@ function ClientTable() {
     const getClients = async () => {
         const res = await getClientsService();
         if (res.error || res.data === null) return
-        const ClientsData = res.data.data;
-        setListClients(ClientsData);
-        listClientsRef.current = ClientsData;
+        const clientsData = res.data.data;     
+        setListClients(clientsData);
+        listClientsRef.current = clientsData;
     };
 
     const generalFilter = (value: string) => {
@@ -41,9 +41,9 @@ function ClientTable() {
             return setListClients(listClientsRef.current);
         }
         const filteredList = listClientsRef.current.filter(
-            ({ identification, fullName, email, address, telephone, active: status }: Client) => {
+            ({ identification, fullname, email, address, telephone, status }: Client) => {
                 status = (status) ? State.ACTIVE : State.INACTIVE;
-                const filter = `${identification} ${name} ${email} ${address} ${telephone} ${status} ${fullName}`;
+                const filter = `${identification} ${fullname} ${email} ${address} ${telephone} ${status}`;
                 return filter.toLowerCase().includes(value.trim().toLowerCase());
 
             },
@@ -62,23 +62,22 @@ function ClientTable() {
     }
 
     const ClientsColumns = useMemo<DataTableColumn<Client>[]>(() => [
-        { accessor: "type", title: "Tipo Cliente", textAlignment: 'center' },
-        { accessor: "fullName", title: "Nombre", textAlignment: 'center' },
+        { accessor: "fullname", title: "Nombre", textAlignment: 'center' },
         { accessor: "identification", title: "Identificación", textAlignment: 'center' },
         { accessor: "email", title: "Email", textAlignment: 'center' },
         { accessor: "address", title: "Dirección", textAlignment: 'center' },
         { accessor: "telephone", title: "Teléfono", textAlignment: 'center' },
-        { accessor: "status", title: "Estado", textAlignment: 'center', render: (Client) => <Text>{(Client.active) ? "Activo" : "Inactivo"}</Text> },
+        { accessor: "status", title: "Estado", textAlignment: 'center', render: (client) => <Text>{(client.status) ? "Activo" : "Inactivo"}</Text> },
         {
             accessor: "actions",
             title: "Acciones",
-            render: (Client) => (
+            render: (client) => (
                 <Group spacing={10} position="center" noWrap>
                     <Tooltip label="Editar">
                         <ActionIcon
                             color="violet"
                             variant="light"
-                            onClick={() => onClickEditButton({ ...Client })}
+                            onClick={() => onClickEditButton({ ...client })}
                         >
                             <IconEdit />
                         </ActionIcon>
