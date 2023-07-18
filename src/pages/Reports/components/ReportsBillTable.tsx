@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DataTableColumn } from "mantine-datatable"
-import { ActionIcon, Flex, Group, Tooltip, Text } from "@mantine/core";
+import { ActionIcon, Flex, Group, Tooltip, Modal } from "@mantine/core";
 import { IconEye } from "@tabler/icons-react";
 import { DataTable } from "../../../components";
 import { useDisclosure } from "@mantine/hooks";
-import MantineDrawer from "../../../components/Drawer";
 import InputsFilters from "../../../components/InputsFilters";
-import { getBillsService } from "../services";
+import { getBillService, getBillsService } from "../services";
+import { Bill } from "../../../models";
+import { BillDetails } from ".";
 
 
 
@@ -26,25 +27,25 @@ export interface BillData {
 function BillTable() {
     const [listCategories, setListCategories] = useState<BillData[]>([]);
     const listCategoriesRef = useRef<BillData[]>([]);
-    const [selectedBill, setSelectedBill] = useState<BillData | null>(null)
+    const [selectedBill, setSelectedBill] = useState<Bill | null>(null)
     const [opened, { open, close }] = useDisclosure()
 
 
     const onClickViewDetailButton = async (bill: BillData) => {
-        /* const { id } = bill;
-        const BillToEdit = await getBill(id);
+        const { id } = bill;
+        const billToView = await getBill(id!);
 
-        if (BillToEdit == null) return;
-        setSelectedBill({ ...BillToEdit });
-        open() */
+        if (billToView == null) return;
+        setSelectedBill({ ...billToView });
+        open()
     }
 
 
     const getBill = async (id: string) => {
-        /* const res = await getBillService(id);
+        const res = await getBillService(id);
         if (res.error || res.data === null) return null;
 
-        return getBillProperties(res.data.data); */
+        return res.data.data;
     };
 
     const getCategories = async () => {
@@ -58,7 +59,7 @@ function BillTable() {
                 issueDate: bill.issueDate,
                 user: bill.user.fullName,
                 client: bill.client.fullname,
-                identificationClient:bill.client.identification,
+                identificationClient: bill.client.identification,
                 status: "Pendiente",
                 iva: `${bill.iva}%`,
                 discount: `${bill.discount}%`,
@@ -75,8 +76,8 @@ function BillTable() {
             return setListCategories(listCategoriesRef.current);
         }
         const filteredList = listCategoriesRef.current.filter(
-            ({ user, promotion, status, tax }: BillData) => {
-                const filter = `${user} ${promotion} ${status} ${tax}`;
+            ({ client, identificationClient }: BillData) => {
+                const filter = `${client} ${identificationClient}`;
                 return filter.toLowerCase().includes(value.trim().toLowerCase());
 
             },
@@ -89,12 +90,7 @@ function BillTable() {
         getCategories();
     }, [])
 
-    const onSubmitSuccess = async () => {
-        close()
-        await getCategories()
-    }
-
-    const categoriesColumns = useMemo<DataTableColumn<BillData>[]>(() => [
+    const billsColumns = useMemo<DataTableColumn<BillData>[]>(() => [
         { accessor: "issueDate", title: "Fecha de Emision", textAlignment: 'center' },
         { accessor: "user", title: "Usuario", textAlignment: 'center' },
         { accessor: "client", title: "Cliente", textAlignment: 'center' },
@@ -130,10 +126,10 @@ function BillTable() {
             <Flex justify="space-between" align="center">
                 <InputsFilters onChangeFilters={generalFilter} />
             </Flex>
-            <DataTable columns={categoriesColumns} records={listCategories} />
-            <MantineDrawer opened={opened} close={close} isBig={false} >
-                {/* <FormBill onCancel={c1lose} onSubmitSuccess={onSubmitSuccess} selectedBill={selectedBill} /> */}
-            </MantineDrawer>
+            <DataTable columns={billsColumns} records={listCategories} />
+            <Modal centered withCloseButton={false} opened={opened} onClose={close} size="lg">
+                <BillDetails bill={selectedBill!} />
+            </Modal>
         </Flex>
     )
 }

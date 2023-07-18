@@ -3,7 +3,7 @@ import { UserAuthResponse } from "../pages/Login/services/loginService";
 
 export const getUser = (auth: UserAuthResponse) => {
     const res = auth.data;
-    
+
     const user: User = {
         id: res.user.id,
         company: res.user.company,

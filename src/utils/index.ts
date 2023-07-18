@@ -6,4 +6,5 @@ export * from './getTaxProperties';
 export * from './getUser';
 export * from './getValidationError';
 export * from './snackbarManager';
+export * from './toFixed';
 export * from './validateIdentification';

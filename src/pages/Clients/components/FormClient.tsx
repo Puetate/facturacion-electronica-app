@@ -50,7 +50,7 @@ const validationSchema = Yup.object<Client>().shape({
 
 function FormClient({ onSubmitSuccess, onCancel, selectedClient }:
     {
-        onSubmitSuccess: () => void,
+        onSubmitSuccess: (client: Client) => void
         onCancel: () => void,
         selectedClient: Client | null
     }) {
@@ -69,20 +69,22 @@ function FormClient({ onSubmitSuccess, onCancel, selectedClient }:
 
 
     const handleSubmit = async (formClient: Client) => {
-
         setLoading(true)
-        formClient.status = formClient.status as boolean
+        formClient.status = formClient.status as boolean;
+        let client: Client;
         if (idRef.current !== "") {
             const res = await editClientService(idRef.current, formClient)
             if (res.error || res.data == null) return setLoading(false)
             SnackbarManager.success("Cliente editado exitosamente")
+            client = res.data;
         } else {
             const res = await saveClientService(formClient)
             if (res.error || res.data == null) return setLoading(false)
             SnackbarManager.success("Cliente creado exitosamente")
+            client = res.data;
         }
         setLoading(false)
-        onSubmitSuccess()
+        onSubmitSuccess(client)
         onCancel();
     }
 
