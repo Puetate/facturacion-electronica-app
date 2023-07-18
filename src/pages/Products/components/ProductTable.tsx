@@ -24,7 +24,8 @@ export interface ProductData {
     quantity: number,
     status: boolean | string
     minStock: number,
-    maxStock: number
+    maxStock: number,
+    supplier: string,
     category: string,
     promotion: string,
     tax: string,
