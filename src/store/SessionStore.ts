@@ -13,15 +13,15 @@ interface SessionState {
 const initialUser: User = {
 	id: "",
 	company: {
-		id_company: "",
-		city: "",
+		id: "",
+		address: "",
 		ruc: "",
 		type: CompanyType.EMPTY,
 		name: "",
 		email: "",
 		phone: "",
 		logo: "",
-		environment: EnvironmentType.TEST,
+		environment: EnvironmentType.PRUEBA,
 		accounting: false
 	},
 	email: "",
@@ -32,6 +32,7 @@ const initialUser: User = {
 	status: false,
 
 };
+
 
 export const useSessionStore = create(
 	persist<SessionState>(

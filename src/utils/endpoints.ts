@@ -7,5 +7,6 @@ export const enum EndPoints{
     PRODUCT=`${EndPoints.PROTECTED}/product`,
     PAYMENT=`${EndPoints.PROTECTED}/payment`,
     CLIENT=`${EndPoints.PROTECTED}/clients`,
-    USERS=`${EndPoints.PROTECTED}/users/update/password`
+    USERS=`${EndPoints.PROTECTED}/users/update/password`,
+    USER=`${EndPoints.PROTECTED}/users/company`,
 }

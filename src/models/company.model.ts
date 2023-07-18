@@ -9,7 +9,7 @@ export enum EnvironmentType {
     PRUEBA = "PRUEBA"
 }
 export interface Company {
-    id_company?: string,
+    id: string,
     name: string,
     email: string,
     ruc: string,
