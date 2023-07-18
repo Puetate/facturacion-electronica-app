@@ -10,6 +10,8 @@ import { DataTable } from "../../../components";
 import { Title } from "../../../layouts";
 import { useSessionStore } from "../../../store";
 import FormUser from "./FormUser";
+import { getUserService } from "../services/getUser.service";
+import { getUserProperties } from "../../../utils/getUserProperties";
 
 
 export interface UserData {
@@ -21,6 +23,7 @@ export interface UserData {
 	status: boolean | string,
 	role: string,
 	telephone: string,
+    password: string
 }
 
 function UserTable(){
@@ -30,13 +33,28 @@ function UserTable(){
     const [opened, { open, close }] = useDisclosure()
     const { user: admin } = useSessionStore();
 
+    const onClickEditButton = async (user: UserData) => {
+
+        const { id } = user;
+        const userToEdit = await getUser(id);
+        if (userToEdit == null) return;
+        setSelectedUser({ ...userToEdit });
+        open()
+    }
+
+    const getUser = async (id: string) => {
+        const res = await getUserService(id);
+        if (res.error || res.data === null) return null;
+
+        return getUserProperties(res.data.data);
+    };
+
     const onClickAddButton = () => {
         setSelectedUser(null);
         open()
     }
 
     const getUsers = async () => {
-        console.log(admin.company.id);
             const res = await getUsersService(admin.company.id);
             if (res.error || res.data === null) return
             const usersData = res.data.data;
@@ -49,7 +67,8 @@ function UserTable(){
                     fullName: user.fullName,
                     status: user.status,
                     role: user.role,
-                    telephone: user.telephone
+                    telephone: user.telephone,
+                    password: user.password
                 }
             ));
             setListUsers(users);
@@ -96,7 +115,7 @@ function UserTable(){
                         <ActionIcon
                             color="violet"
                             variant="light"
-                            
+                            onClick={() => onClickEditButton(User)}
                         >
                             <IconEdit />
                         </ActionIcon>
@@ -121,7 +140,7 @@ function UserTable(){
             <DataTable columns={UsersColumns} records={listUsers} />
             
             <MantineDrawer opened={opened} close={close} isBig={false} >
-            <FormUser onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedUser={selectedUser} />
+                <FormUser onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedUser={selectedUser} />
             </MantineDrawer>
         </Flex>
     )

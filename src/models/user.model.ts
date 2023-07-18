@@ -1,7 +1,7 @@
 import { Company } from ".";
 
 export enum UserRoles {
-	USER = "USUARIO",
+	USER = "VENDEDOR",
 	ADMIN = "ADMINISTRADOR",
 	SUPER = "SUPER",
 }
@@ -22,4 +22,5 @@ export interface User {
 	status: boolean,
 	role: UserRoles,
 	telephone: string,
+	password: string
 }
