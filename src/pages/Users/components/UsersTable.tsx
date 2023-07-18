@@ -9,6 +9,7 @@ import MantineDrawer from "../../../components/Drawer";
 import { DataTable } from "../../../components";
 import { Title } from "../../../layouts";
 import { useSessionStore } from "../../../store";
+import FormUser from "./FormUser";
 
 
 export interface UserData {
@@ -120,7 +121,7 @@ function UserTable(){
             <DataTable columns={UsersColumns} records={listUsers} />
             
             <MantineDrawer opened={opened} close={close} isBig={false} >
-               
+            <FormUser onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedUser={selectedUser} />
             </MantineDrawer>
         </Flex>
     )
