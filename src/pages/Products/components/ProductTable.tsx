@@ -22,7 +22,7 @@ export interface ProductData {
     name: string,
     price: number | string,
     quantity: number,
-    status: boolean | string
+    status: boolean | string,
     minStock: number,
     maxStock: number
     category: string,

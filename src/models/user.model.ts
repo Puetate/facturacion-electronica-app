@@ -20,6 +20,6 @@ export interface User {
 	email: string,
 	fullName: string,
 	status: boolean,
-	rol: UserRoles,
+	role: UserRoles,
 	telephone: string,
 }
