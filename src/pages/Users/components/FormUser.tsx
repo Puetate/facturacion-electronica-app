@@ -30,7 +30,7 @@ export const itemState = [
 
 export const itemRoles = [
     { value: "ADMINISTRADOR", label: UserRoles.ADMIN },
-    { value: "VENDEDOR", label: UserRoles.USER },
+    { value: "VENDEDOR", label: UserRoles.VENDEDOR },
 ];
 
 
@@ -98,7 +98,7 @@ function FormUser({ onSubmitSuccess, onCancel, selectedUser }:
     return (
         <Flex direction="column" p="lg">
 
-            <Text className={classes.title} align="center" mb="lg">{idRef.current ? "Editar Producto" : "Crear Producto"}</Text>
+            <Text className={classes.title} align="center" mb="lg">{idRef.current ? "Editar Usuario" : "Crear Usuario"}</Text>
             <form onSubmit={form.onSubmit(handleSubmit)} >
                 <Flex direction="column" gap="md">
                     <TextInput

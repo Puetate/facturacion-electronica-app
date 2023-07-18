@@ -28,7 +28,7 @@ const initialUser: User = {
 	fullName: "",
 	identification: "",
 	telephone: "",
-	role: UserRoles.USER,
+	role: UserRoles.ADMIN,
 	status: false,
 
 };
