@@ -1,4 +1,4 @@
-import { Tax } from ".";
+import { Supplier, Tax } from ".";
 import { Category } from "./category.model";
 import { Promotion } from "./promotion.model";
 
@@ -13,5 +13,6 @@ export interface Product {
     maxStock: number
     category: Category,
     promotion: Promotion,
+    supplier:Supplier,
     tax:Tax
 }

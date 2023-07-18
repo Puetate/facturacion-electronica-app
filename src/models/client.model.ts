@@ -12,11 +12,10 @@ export enum IdentificationType {
 export interface Client {
     id: string,
     identification: string,
-    fullName: string,
+    fullname: string,
     telephone: string,
     email: string,
     address: string,
-    active: string | boolean
-    type: TypeClient,
+    status: string | boolean
     identificationType:IdentificationType
 }
