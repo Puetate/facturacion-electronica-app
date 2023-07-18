@@ -9,6 +9,7 @@ import { ProductData } from "./ProductTable";
 import { getCatalogCategoryService } from "../../Categories/services";
 import { editProductService, saveProductService } from "../services";
 import { getCatalogPromotionsService } from "../../Promotions/services";
+import { getCatalogSuppliersService } from "../../Supplier/services";
 
 
 const useStyles = createStyles((theme) => ({
@@ -43,6 +44,7 @@ const initialValues: ProductData = {
     maxStock: 5,
     category: "",
     promotion: "",
+    supplier:"",
     tax: "",
 }
 
@@ -69,6 +71,7 @@ function FormProduct({ onSubmitSuccess, onCancel, selectedProduct }:
     const [catalogTax, setCatalogTax] = useState<Catalog[]>([])
     const [catalogPromotions, setCatalogPromotions] = useState<Catalog[]>([])
     const [catalogCategories, setCatalogCategories] = useState<Catalog[]>([])
+    const [catalogSuppliers, setCatalogSuppliers] = useState<Catalog[]>([])
 
 
     const form = useForm({
@@ -116,11 +119,17 @@ function FormProduct({ onSubmitSuccess, onCancel, selectedProduct }:
         setCatalogCategories(catalog);
     }
 
+    const getCatalogSuppliers = async () => {
+        const catalog = await getCatalogSuppliersService();
+        if (catalog === null) return;
+        setCatalogSuppliers(catalog);
+    }
+
     useEffect(() => {
         getCatalogTax();
         getCatalogPromotions();
         getCatalogCategories();
-
+        getCatalogSuppliers();
     }, [])
 
 
@@ -212,6 +221,15 @@ function FormProduct({ onSubmitSuccess, onCancel, selectedProduct }:
                             {...form.getInputProps("maxStock")}
                         />
                     </Flex>
+
+                    <Select
+                        clearable
+                        label="Proveedor"
+                        placeholder="Seleccione"
+                        data={catalogSuppliers}
+                        {...form.getInputProps("supplier")}
+
+                    />
 
                     <Select
                         clearable

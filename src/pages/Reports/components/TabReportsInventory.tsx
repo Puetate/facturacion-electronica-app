@@ -1,7 +1,8 @@
+import InventoryTable from "./ReportInventory"
 
 function TabReportsInventory() {
   return (
-    <div>TabReportsInventory</div>
+    <InventoryTable/>
   )
 }
 
