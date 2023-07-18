@@ -1,20 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { DataTableColumn } from "mantine-datatable"
-import { ActionIcon, Button, Flex, Group, Tooltip, Text } from "@mantine/core";
-import { IconCirclePlus, IconEdit } from "@tabler/icons-react";
-import { ConfirmDialog, DataTable } from "../../../components";
 import { useDisclosure } from "@mantine/hooks";
-import MantineDrawer from "../../../components/Drawer";
-import InputsFilters from "../../../components/InputsFilters";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { getProductsService } from "../../Products/services";
+import { DataTableColumn } from "mantine-datatable";
+import { Flex, Text } from "@mantine/core";
 import { Title } from "../../../layouts";
-import { FormProduct } from ".";
-import { getProductService, getProductsService } from "../services";
-import { getProductProperties } from "../../../utils";
+import InputsFilters from "../../../components/InputsFilters";
+import { DataTable } from "../../../components";
 
-
-//const TITLE = "Categorías";
-const CONFIRM_MESSAGE = "¿Seguro que desea eliminar el producto?"
-//const SUCCESS_DELETE = "Producto eliminada exitosamente"
 
 export interface ProductData {
     id: string,
@@ -31,7 +23,7 @@ export interface ProductData {
     tax: string,
 }
 
-function ProductTable() {
+function InventoryTable() {
     const [listProducts, setListProducts] = useState<ProductData[]>([]);
     const listProductsRef = useRef<ProductData[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<ProductData | null>(null)
@@ -39,35 +31,6 @@ function ProductTable() {
     const [openedDialog, { close: closeDialog }] = useDisclosure()
 
 
-    const onClickEditButton = async (product: ProductData) => {
-
-        const { id } = product;
-        const productToEdit = await getProduct(id);
-        if (productToEdit == null) return;
-        setSelectedProduct({ ...productToEdit });
-        open()
-    }
-
-    const getProduct = async (id: string) => {
-        const res = await getProductService(id);
-        if (res.error || res.data === null) return null;
-
-        return getProductProperties(res.data.data);
-    };
-
-    const handleDeleteRoutineAlert = async () => {
-        const { id } = selectedProduct!;
-        if (!id) return;
-        /* const res = await deleteProductService(id);
-        if (res.error || res.data === null) return
-        SnackbarManager.success(SUCCESS_DELETE)
-        onSubmitSuccess();
-        closeDialog(); */
-    }
-    const onClickAddButton = () => {
-        setSelectedProduct(null);
-        open()
-    }
 
     const getProducts = async () => {
         const res = await getProductsService();
@@ -128,44 +91,17 @@ function ProductTable() {
         { accessor: "minStock", title: "Min. Stock", textAlignment: 'center' },
         { accessor: "maxStock", title: "Max. Stock", textAlignment: 'center' },
         { accessor: "status", title: "Estado", textAlignment: 'center', render: (Product) => <Text>{(Product.status) ? "Activo" : "Inactivo"}</Text> },
-        {
-            accessor: "actions",
-            title: "Acciones",
-            render: (Product) => (
-                <Group spacing={10} position="center" noWrap>
-                    <Tooltip label="Editar">
-                        <ActionIcon
-                            color="violet"
-                            variant="light"
-                            onClick={() => onClickEditButton(Product)}
-                        >
-                            <IconEdit />
-                        </ActionIcon>
-                    </Tooltip>
-                </Group>
-            ),
-            textAlignment: 'center'
-        },
-
     ], [])
 
     return (
 
         <Flex direction="column" h="100%" gap=".15rem">
-            <Title />
             <Flex justify="space-between" align="center">
                 <InputsFilters onChangeFilters={generalFilter} />
-                <Button size="md" leftIcon={<IconCirclePlus />} onClick={onClickAddButton}>
-                    Agregar
-                </Button>
             </Flex>
             <DataTable columns={ProductsColumns} records={listProducts} />
-            <ConfirmDialog opened={openedDialog} onClose={closeDialog} message={CONFIRM_MESSAGE} onConfirm={handleDeleteRoutineAlert} />
-            <MantineDrawer opened={opened} close={close} isBig={false} >
-                <FormProduct onCancel={close} onSubmitSuccess={onSubmitSuccess} selectedProduct={selectedProduct} />
-            </MantineDrawer>
         </Flex>
     )
 }
 
-export default ProductTable
+export default InventoryTable

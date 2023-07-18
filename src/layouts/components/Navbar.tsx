@@ -111,9 +111,9 @@ const linksSuper: LinksGroupProps[] = [
 ];
 
 const navBarsLinks = {
-	user: linksUser,
+	VENDEDOR: linksUser,
 	ADMINISTRADOR: linksAdmin,
-	super: linksSuper
+	SUPER: linksSuper
 }
 
 export default function Navbar() {
@@ -124,7 +124,7 @@ export default function Navbar() {
 
 
 	const getLinks = () => {
-		setLinks(navBarsLinks[user.rol])
+		setLinks(navBarsLinks[user.role])
 	}
 
 	useEffect(() => {

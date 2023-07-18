@@ -12,6 +12,7 @@ export const getProductProperties = (productModel: Product) => {
         status: (productModel.status) ? "true" : "false",
         minStock: productModel.minStock,
         maxStock: productModel.maxStock,
+        supplier:  ((productModel.supplier != null) ? productModel.supplier.id : "")!,
         category: ((productModel.category != null) ? productModel.category.id : "")!,
         promotion: ((productModel.promotion != null) ? productModel.promotion.id : "")!,
         tax: ((productModel.tax != null) ? productModel.tax.id : "")!,

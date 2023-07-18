@@ -1,26 +1,27 @@
-import { User } from ".";
-import { CustomerCompany } from "./customerCompany.model";
-import { CustomerPerson } from "./customerPerson.model";
+import { BillDetail, Client, User } from ".";
 import { PaymentMethods } from "./paymentMethods.model";
 
 export enum BillState {
-	SENT = "Enviada",
+    SENT = "Enviada",
     PROGRESS = "En proceso",
     ACCEPTED = "Aceptada",
-	REJECTED = "Rechazada",
-	CANCELED = "Anulada",
+    REJECTED = "Rechazada",
+    CANCELED = "Anulada",
 }
 
 export interface Bill {
-	id_bill?: string,
-	user: User,
-    customer: CustomerPerson | CustomerCompany,
-    paymentMethods: PaymentMethods,
-    invoiceNumber:string,
-    state: BillState,
-    broadcastDate: Date,
-    description: string,
-    IVA: number,
-    subtotal: number
-    total: number
+    id?: string,
+    invoiceNumber: string;
+    keyAccess: string;
+    status: string;
+    issueDate: string;
+    description: string;
+    iva: number;
+    subtotalExcludingIVA: number;
+    total: number;
+    discount: number;
+    user: User;
+    client: Client;
+    payment?: PaymentMethods;
+    details: BillDetail[];
 }

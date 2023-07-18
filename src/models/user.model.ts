@@ -1,11 +1,11 @@
 import { Company } from ".";
 
 export enum UserRoles {
-	USER = "VENDEDOR",
+	VENDEDOR = "VENDEDOR",
 	ADMIN = "ADMINISTRADOR",
-	SUPER = "SUPER",
+	SUPER= "SUPER",
 }
-
+ 
 export enum State {
 	ACTIVE = "ACTIVO",
 	INACTIVE = "INACTIVO",

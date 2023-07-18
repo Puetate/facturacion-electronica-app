@@ -29,6 +29,7 @@ const TITLE_PATH = {
 	[AdminRoutes.categories]: "Categorías",
 	[AdminRoutes.products]: "Productos",
 	[AdminRoutes.reports]: "Reportes",
+	[AdminRoutes.clients]: "Clientes",
 	[AdminRoutes.tax]: "Impuesto",
 	[AdminRoutes.payments]: "Métodos de pago",
 	[AdminRoutes.users]: "Usuarios",
