@@ -27,7 +27,7 @@ function BillDetails({ bill }: { bill: Bill }) {
         price: string,
         quantity: string,
         discount: string
-        subtotal: string
+        subtotal: string,
     }
 
     const getBillDetails = async () => {
@@ -67,11 +67,13 @@ function BillDetails({ bill }: { bill: Bill }) {
                     <Text fw={700}  >Fecha de Emisión: </Text>
                     <Text fw={700}>Identificación: </Text>
                     <Text fw={700}>Cliente: </Text>
+                    <Text fw={700}>Clave de Acceso: </Text>
                 </Flex>
                 <Flex direction="column" gap="xs">
                     <Text>{bill.issueDate}</Text>
                     <Text>{bill.client.identification}</Text>
                     <Text>{bill.client.fullname}</Text>
+                    <Text>{bill.keyAccess}</Text>
                 </Flex>
             </Flex>
             <DataTable columns={billDetailsColumns} records={listBillDetails} />

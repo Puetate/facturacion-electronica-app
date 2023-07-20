@@ -38,7 +38,7 @@ export default function DataTable<T>(props: DataTableProps<T>) {
 			setTableRecords([]);
 			setTimeout(() => {
 				setFetching(false);
-			}, 3000);
+			}, 4500);
 		} else {
 			recordsRef.current = props.records;
 			onPageChange();

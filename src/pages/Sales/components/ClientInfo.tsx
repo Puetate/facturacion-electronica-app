@@ -28,6 +28,7 @@ export default function ClientInfo() {
 
     useEffect(() => {
         setVal(client.identification);
+        getIdentifications()
     }, [client.identification])
 
     useEffect(() => {
@@ -51,7 +52,7 @@ export default function ClientInfo() {
                     label="Cliente"
                     value={client.fullname}
                     readOnly
-                    disabled
+
                 />
             </Flex>
             <Flex gap="md">
@@ -59,13 +60,11 @@ export default function ClientInfo() {
                     label="Teléfono"
                     value={client.telephone}
                     readOnly
-                    disabled
                 />
                 <TextInput
                     label="Correo Electrónico"
                     value={client.email}
                     readOnly
-                    disabled
                 />
             </Flex>
         </Flex>

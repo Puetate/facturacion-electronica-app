@@ -29,20 +29,20 @@ export const itemState = [
 ];
 
 export const itemRoles = [
-    { value: "ADMINISTRADOR", label: UserRoles.ADMIN },
+    { value: "ADMINISTRADOR", label: UserRoles.ADMINISTRADOR },
     { value: "VENDEDOR", label: UserRoles.VENDEDOR },
 ];
 
 
 const initialValues: UserData = {
     id: "",
-	company: "",
-	identification: "",
-	email: "",
-	fullName: "",
-	status: "",
-	role: "",
-	telephone: "",
+    company: "",
+    identification: "",
+    email: "",
+    fullName: "",
+    status: "",
+    role: "",
+    telephone: "",
     password: "",
 }
 
@@ -85,7 +85,7 @@ function FormUser({ onSubmitSuccess, onCancel, selectedUser }:
             if (res.error || res.data == null) return setLoading(false)
             SnackbarManager.success("Usuario editado exitosamente")
         } else {
-            const res = await saveUserService(admin.company.id,formUser)
+            const res = await saveUserService(admin.company.id, formUser)
             if (res.error || res.data == null) return setLoading(false)
             SnackbarManager.success("Usuario creado exitosamente")
         }
@@ -130,7 +130,7 @@ function FormUser({ onSubmitSuccess, onCancel, selectedUser }:
                         label="Contraseña"
                         disabled={(idRef.current != "") ? true : false}
                         {...form.getInputProps("password")}
-                        />
+                    />
 
                     <Select
                         withAsterisk
